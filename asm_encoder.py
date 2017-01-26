@@ -174,3 +174,96 @@ class PicoBlazeAsmEncoder():
     def __XOR(self):
         pass
 
+    def encode_instruction(self, name_instruction):
+        if name_instruction == "ADD":
+            self.__ADD()
+        elif name_instruction == "ADDCY":
+            self.__ADDCY()
+        elif name_instruction == "AND":
+            self.__AND()
+        elif name_instruction == "CALL":
+            if self.__instruction[1] == "C":
+                self.__CALL_C()
+            elif self.__instruction[1] == "NC":
+                self.__CALL_NC()
+            elif self.__instruction[1] == "Z":
+                self.__CALL_Z()
+            elif self.__instruction[1] == "NZ":
+                self.__CALL_NZ()
+            else:
+                self.__CALL()
+        elif name_instruction == "COMPARE":
+            self.__COMPARE()
+        elif name_instruction == "DISABLE":
+            self.__DISABLE_INTERRUPT()
+        elif name_instruction == "ENABLE":
+            self.__ENABLE_INTERRUPT()
+        elif name_instruction == "FETCH":
+            self.__FETCH()
+        elif name_instruction == "INPUT":
+            self.__INPUT()
+        elif name_instruction == "JUMP":
+            if name_instruction[1] == "C":
+                self.__JUMP_C()
+            elif name_instruction[1] == "NC":
+                self.__JUMP_NC()
+            elif name_instruction[1] == "Z":
+                self.__JUMP_Z()
+            elif name_instruction[1] == "NZ":
+                self.__JUMP_NZ()
+            else:
+                self.__JUMP()
+        elif name_instruction == "LOAD":
+            self.__LOAD()
+        elif name_instruction == "OR":
+            self.__OR()
+        elif name_instruction == "OUTPUT":
+            self.__OUTPUT()
+        elif name_instruction == "RETURN":
+            if name_instruction[1] == "C":
+                self.__RETURN_C()
+            elif name_instruction[1] == "NC":
+                self.__RETURN_NC()
+            elif name_instruction[1] == "Z":
+                self.__RETURN_Z()
+            elif name_instruction[1] == "NZ":
+                self.__RETURN_NZ()
+            else:
+                self.__RETURN()
+        elif name_instruction == "RETURNI":
+            if name_instruction == "DISABLE":
+                self.__RETURNI_DISABLE()
+            elif name_instruction == "ENABLE":
+                self.__RETURNI_ENABLE()
+        elif name_instruction == "RL":
+            self.__RL()
+        elif name_instruction == "RR":
+            self.__RR()
+        elif name_instruction == "SL0":
+            self.__SL0()
+        elif name_instruction == "SL1":
+            self.__SL1()
+        elif name_instruction == "SLA":
+            self.__SLA()
+        elif name_instruction == "SLX":
+            self.__SLX()
+        elif name_instruction == "SR0":
+            self.__SR0()
+        elif name_instruction == "SR1":
+            self.__SR1()
+        elif name_instruction == "SRA":
+            self.__SRA()
+        elif name_instruction == "SRX":
+            self.__SRX()
+        elif name_instruction == "STORE":
+            self.__STORE()
+        elif name_instruction == "SUB":
+            self.__SUB()
+        elif name_instruction == "SUBCY":
+            self.__SUBCY()
+        elif name_instruction == "TEST":
+            self.__TEST()
+        elif name_instruction == "XOR":
+            self.__XOR()
+        else:
+            print "instruction unsupported"
