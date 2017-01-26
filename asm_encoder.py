@@ -41,3 +41,136 @@ class PicoBlazeAsmEncoder():
         "sE": "1110",
         "sF": "1111"
     }
+
+    def __ADD(self):
+        pass
+
+    def __ADDCY(self):
+        pass
+
+    def __AND(self):
+        pass
+
+    def __CALL(self):
+        pass
+
+    def __CALL_C(self):
+        pass
+
+    def __CALL_NC(self):
+        pass
+
+    def __CALL_Z(self):
+        pass
+
+    def __CALL_NZ(self):
+        pass
+
+    def __COMPARE(self):
+        pass
+
+    def __DISABLE_INTERRUPT(self):
+        pass
+
+    def __ENABLE_INTERRUPT(self):
+        pass
+
+    def __FETCH(self):
+        pass
+
+    def __INPUT(self):
+        pass
+
+    def __JUMP(self):
+        pass
+
+    def __JUMP_C(self):
+        pass
+
+    def __JUMP_NC(self):
+        pass
+
+    def __JUMP_Z(self):
+        pass
+
+    def __JUMP_NZ(self):
+        pass
+
+    def __LOAD(self):
+        pass
+
+    def __OR(self):
+        pass
+
+    def __OUTPUT(self):
+        pass
+
+    def __RESET(self):
+        pass
+
+    def __RETURN(self):
+        pass
+
+    def __RETURN_C(self):
+        pass
+
+    def __RETURN_NC(self):
+        pass
+
+    def __RETURN_Z(self):
+        pass
+
+    def __RETURN_NZ(self):
+        pass
+
+    def __RETURNI_DISABLE(self):
+        pass
+
+    def __RETURNI_ENABLE(self):
+        pass
+
+    def __RL(self):
+        pass
+
+    def __RR(self):
+        pass
+
+    def __SL0(self):
+        pass
+
+    def __SL1(self):
+        pass
+
+    def __SLA(self):
+        pass
+
+    def __SLX(self):
+        pass
+
+    def __SR0(self):
+        pass
+
+    def __SR1(self):
+        pass
+
+    def __SRA(self):
+        pass
+
+    def __SRX(self):
+        pass
+
+    def __STORE(self):
+        pass
+
+    def __SUB(self):
+        pass
+
+    def __SUBCY(self):
+        pass
+
+    def __TEST(self):
+        pass
+
+    def __XOR(self):
+        pass
+
