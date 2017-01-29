@@ -74,7 +74,18 @@ class PicoBlazeAsmEncoder():
             self.__encoded_instruction_to_bin += ''.join(format(int(self.instruction[2]), 'b')).zfill(8)
 
     def __AND(self):
-        pass
+        self.__encoded_instruction_to_bin = ""
+        self.instruction = self.instruction.split()
+        self.__encoded_instruction_to_bin += self.operation[self.instruction[0]]
+        if self.instruction[2].find('s') != -1:
+            self.__encoded_instruction_to_bin += '1'
+            self.__encoded_instruction_to_bin += self.register[self.instruction[1][:-1]]
+            self.__encoded_instruction_to_bin += self.register[self.instruction[2]]
+            self.__encoded_instruction_to_bin += '0000'
+        else:
+            self.__encoded_instruction_to_bin += '0'
+            self.__encoded_instruction_to_bin += self.register[self.instruction[1][:-1]]
+            self.__encoded_instruction_to_bin += ''.join(format(int(self.instruction[2]), 'b')).zfill(8)
 
     def __CALL(self):
         pass
