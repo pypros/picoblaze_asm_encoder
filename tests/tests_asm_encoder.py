@@ -116,5 +116,21 @@ def test_encode_operation_SUBCY_sx_sy():
 
 def test_encode_operation_TEST():
     pass
-def test_encode_operation_XOR():
-    pass
+
+
+def test_encode_operation_XOR_sx_kk():
+    line_of_code = "XOR s0, 127"
+    #         "001110xxxxkkkkkkkk"
+    binary_instruction_expected = "001110000001111111"  # XOR s0, kk
+    asm_encoder = PicoBlazeAsmEncoder()
+    asm_encoder.encode_instruction(line_of_code)
+    assert binary_instruction_expected == asm_encoder._PicoBlazeAsmEncoder__encoded_instruction_to_bin
+
+
+def test_encode_operation_XOR_sx_sy():
+    line_of_code = "XOR s0, sF"
+    #         "001111xxxxyyyy0000"
+    binary_instruction_expected = "001111000011110000"  # XOR s0, sF
+    asm_encoder = PicoBlazeAsmEncoder()
+    asm_encoder.encode_instruction(line_of_code)
+    assert binary_instruction_expected == asm_encoder._PicoBlazeAsmEncoder__encoded_instruction_to_bin
