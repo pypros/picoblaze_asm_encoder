@@ -48,10 +48,28 @@ def test_encode_operation_AND_sx_sy():
     asm_encoder.encode_instruction(line_of_code)
     assert binary_instruction_expected == asm_encoder._PicoBlazeAsmEncoder__encoded_instruction_to_bin
 
-def test_encode_operation_CALL():
-    pass
-def test_encode_operation_COMPARE():
-    pass
+
+def test_encode_operation_COMPARE_sx_kk():
+    line_of_code = "COMPARE s0, 127"
+    #         "010100xxxxkkkkkkkk"
+    binary_instruction_expected = "010100000001111111"  # COMPARE s0, kk
+    asm_encoder = PicoBlazeAsmEncoder()
+    asm_encoder.encode_instruction(line_of_code)
+    assert binary_instruction_expected == asm_encoder._PicoBlazeAsmEncoder__encoded_instruction_to_bin
+
+def test_encode_operation_COMPARE_sx_sy():
+    line_of_code = "COMPARE s0, sF"
+    #         "010101xxxxyyyy0000"
+    binary_instruction_expected = "010101000011110000"  # COMPARE s0, sF
+    asm_encoder = PicoBlazeAsmEncoder()
+    asm_encoder.encode_instruction(line_of_code)
+    assert binary_instruction_expected == asm_encoder._PicoBlazeAsmEncoder__encoded_instruction_to_bin
+
+
+# def test_encode_operation_COMPARE():
+#     pass
+
+
 def test_encode_operation_INTERRUPT():
     pass
 def test_encode_operation_FETCH():
