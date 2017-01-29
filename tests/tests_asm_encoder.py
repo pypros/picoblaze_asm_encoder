@@ -118,8 +118,26 @@ def test_encode_operation_OUTPUT():
     pass
 def test_encode_operation_RETURN():
     pass
-def test_encode_operation_RETURNI():
-    pass
+
+
+def test_encode_operation_RETURNI_DISABLE():
+    line_of_code = "RETURNI DISABLE"
+    #         "111000000000000000"
+    binary_instruction_expected = "111000000000000000"  # RETURNI DISABLE
+    asm_encoder = PicoBlazeAsmEncoder()
+    asm_encoder.encode_instruction(line_of_code)
+    assert binary_instruction_expected == asm_encoder._PicoBlazeAsmEncoder__encoded_instruction_to_bin
+
+
+def test_encode_operation_RETURNI_ENABLE():
+    line_of_code = "RETURNI ENABLE"
+    #         "111000000000000001"
+    binary_instruction_expected = "111000000000000001"  # RETURNI ENABLE
+    asm_encoder = PicoBlazeAsmEncoder()
+    asm_encoder.encode_instruction(line_of_code)
+    assert binary_instruction_expected == asm_encoder._PicoBlazeAsmEncoder__encoded_instruction_to_bin
+
+
 def test_encode_operation_SHIFT():
     pass
 

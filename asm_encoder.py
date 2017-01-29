@@ -7,7 +7,6 @@ class PicoBlazeAsmEncoder():
             "AND": "00101",
             "CALL": "11000",
             "COMPARE": "01010",
-            "INTERRUPT": "11110",
             "FETCH": "00011",
             "INPUT": "00010",
             "JUMP": "11010",
@@ -182,10 +181,10 @@ class PicoBlazeAsmEncoder():
         pass
 
     def __RETURNI_DISABLE(self):
-        pass
+        self.__encoded_instruction_to_bin = "111000000000000000"
 
     def __RETURNI_ENABLE(self):
-        pass
+        self.__encoded_instruction_to_bin = "111000000000000001"
 
     def __RL(self):
         pass
@@ -290,6 +289,7 @@ class PicoBlazeAsmEncoder():
     def encode_instruction(self, instruction):
         self.instruction = instruction
         name_instruction = instruction.split()[0]
+        second_name_instruction = instruction.split()[1]
         if name_instruction == "ADD":
             self.__ADD()
         elif name_instruction == "ADDCY":
@@ -349,9 +349,9 @@ class PicoBlazeAsmEncoder():
             else:
                 self.__RETURN()
         elif name_instruction == "RETURNI":
-            if name_instruction == "DISABLE":
+            if second_name_instruction == "DISABLE":
                 self.__RETURNI_DISABLE()
-            elif name_instruction == "ENABLE":
+            elif second_name_instruction == "ENABLE":
                 self.__RETURNI_ENABLE()
         elif name_instruction == "RL":
             self.__RL()
