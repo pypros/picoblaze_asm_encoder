@@ -117,10 +117,10 @@ class PicoBlazeAsmEncoder():
             self.__encoded_instruction_to_bin += ''.join(format(int(self.instruction[2]), 'b')).zfill(8)
 
     def __DISABLE_INTERRUPT(self):
-        pass
+        self.__encoded_instruction_to_bin = "111100000000000000"
 
     def __ENABLE_INTERRUPT(self):
-        pass
+        self.__encoded_instruction_to_bin = "111100000000000001"
 
     def __FETCH(self):
         pass

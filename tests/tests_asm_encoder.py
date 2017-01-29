@@ -66,8 +66,22 @@ def test_encode_operation_COMPARE_sx_sy():
     assert binary_instruction_expected == asm_encoder._PicoBlazeAsmEncoder__encoded_instruction_to_bin
 
 
-# def test_encode_operation_COMPARE():
-#     pass
+def test_encode_operation_DISABLE_INTERRUPT():
+    line_of_code = "DISABLE INTERRUPT"
+    #         "111100000000000000"
+    binary_instruction_expected = "111100000000000000"  # COMPARE s0, s
+    asm_encoder = PicoBlazeAsmEncoder()
+    asm_encoder.encode_instruction(line_of_code)
+    assert binary_instruction_expected == asm_encoder._PicoBlazeAsmEncoder__encoded_instruction_to_bin
+
+
+def test_encode_operation_ENABLE_INTERRUPT():
+    line_of_code = "ENABLE INTERRUPT"
+    #         "111100000000000001"
+    binary_instruction_expected = "111100000000000001"  # COMPARE s0, sF
+    asm_encoder = PicoBlazeAsmEncoder()
+    asm_encoder.encode_instruction(line_of_code)
+    assert binary_instruction_expected == asm_encoder._PicoBlazeAsmEncoder__encoded_instruction_to_bin
 
 
 def test_encode_operation_INTERRUPT():
