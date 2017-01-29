@@ -76,8 +76,26 @@ def test_encode_operation_SHIFT():
     pass
 def test_encode_operation_STORE():
     pass
-def test_encode_operation_SUB():
-    pass
+
+
+def test_encode_operation_SUB_sx_kk():
+    line_of_code = "SUB s0, 127"
+    #         "011100xxxxkkkkkkkk"
+    binary_instruction_expected = "011100000001111111"  # SUB s0, kk
+    asm_encoder = PicoBlazeAsmEncoder()
+    asm_encoder.encode_instruction(line_of_code)
+    assert binary_instruction_expected == asm_encoder._PicoBlazeAsmEncoder__encoded_instruction_to_bin
+
+
+def test_encode_operation_SUB_sx_sy():
+    line_of_code = "SUB s0, sF"
+    #         "011101xxxxyyyy0000"
+    binary_instruction_expected = "011101000011110000"  # SUB s0, sF
+    asm_encoder = PicoBlazeAsmEncoder()
+    asm_encoder.encode_instruction(line_of_code)
+    assert binary_instruction_expected == asm_encoder._PicoBlazeAsmEncoder__encoded_instruction_to_bin
+
+
 def test_encode_operation_SUBCY():
     pass
 def test_encode_operation_TEST():
