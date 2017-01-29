@@ -1,49 +1,63 @@
 
 class PicoBlazeAsmEncoder():
-    operation = {
-        "ADD": "01100",
-        "ADDCY": "01101",
-        "AND": "00101",
-        "CALL": "11000",
-        "COMPARE": "01010",
-        "INTERRUPT": "11110",
-        "FETCH": "00011",
-        "INPUT": "00010",
-        "JUMP": "11010",
-        "LOAD": "00000",
-        "OR": "00110",
-        "OUTPUT": "10110",
-        "RETURN": "10101",
-        "RETURNI": "11100",
-        "SHIFT": "10000",
-        "STORE": "10111",
-        "SUB": "01110",
-        "SUBCY": "01111",
-        "TEST": "01001",
-        "XOR": "00111"
-    }
+    def __init__(self):
+        self.operation = {
+            "ADD": "01100",
+            "ADDCY": "01101",
+            "AND": "00101",
+            "CALL": "11000",
+            "COMPARE": "01010",
+            "INTERRUPT": "11110",
+            "FETCH": "00011",
+            "INPUT": "00010",
+            "JUMP": "11010",
+            "LOAD": "00000",
+            "OR": "00110",
+            "OUTPUT": "10110",
+            "RETURN": "10101",
+            "RETURNI": "11100",
+            "SHIFT": "10000",
+            "STORE": "10111",
+            "SUB": "01110",
+            "SUBCY": "01111",
+            "TEST": "01001",
+            "XOR": "00111"
+        }
 
-    register = {
-        "s0": "0000",
-        "s1": "0001",
-        "s2": "0010",
-        "s3": "0011",
-        "s4": "0100",
-        "s5": "0101",
-        "s6": "0110",
-        "s7": "0111",
-        "s8": "1000",
-        "s9": "1001",
-        "sA": "1010",
-        "sB": "1011",
-        "sC": "1100",
-        "sD": "1101",
-        "sE": "1110",
-        "sF": "1111"
-    }
+        self.register = {
+            "s0": "0000",
+            "s1": "0001",
+            "s2": "0010",
+            "s3": "0011",
+            "s4": "0100",
+            "s5": "0101",
+            "s6": "0110",
+            "s7": "0111",
+            "s8": "1000",
+            "s9": "1001",
+            "sA": "1010",
+            "sB": "1011",
+            "sC": "1100",
+            "sD": "1101",
+            "sE": "1110",
+            "sF": "1111"
+        }
+
+        self.__encoded_instruction_to_bin = ''
 
     def __ADD(self):
-        pass
+        self.__encoded_instruction_to_bin = ""
+        self.instruction = self.instruction.split()
+        self.__encoded_instruction_to_bin += self.operation[self.instruction[0]]
+        if self.instruction[2].find('s') != -1:
+            self.__encoded_instruction_to_bin += '1'
+            self.__encoded_instruction_to_bin += self.register[self.instruction[1][:-1]]
+            self.__encoded_instruction_to_bin += self.register[self.instruction[2]]
+            self.__encoded_instruction_to_bin += '0000'
+        else:
+            self.__encoded_instruction_to_bin += '0'
+            self.__encoded_instruction_to_bin += self.register[self.instruction[1][:-1]]
+            self.__encoded_instruction_to_bin += ''.join(format(int(self.instruction[2]), 'b')).zfill(8)
 
     def __ADDCY(self):
         pass
@@ -174,7 +188,9 @@ class PicoBlazeAsmEncoder():
     def __XOR(self):
         pass
 
-    def encode_instruction(self, name_instruction):
+    def encode_instruction(self, instruction):
+        self.instruction = instruction
+        name_instruction = instruction.split()[0]
         if name_instruction == "ADD":
             self.__ADD()
         elif name_instruction == "ADDCY":
@@ -182,13 +198,14 @@ class PicoBlazeAsmEncoder():
         elif name_instruction == "AND":
             self.__AND()
         elif name_instruction == "CALL":
-            if self.__instruction[1] == "C":
+            flag = self.instruction[1]
+            if flag == "C":
                 self.__CALL_C()
-            elif self.__instruction[1] == "NC":
+            elif flag == "NC":
                 self.__CALL_NC()
-            elif self.__instruction[1] == "Z":
+            elif flag == "Z":
                 self.__CALL_Z()
-            elif self.__instruction[1] == "NZ":
+            elif flag == "NZ":
                 self.__CALL_NZ()
             else:
                 self.__CALL()
@@ -203,13 +220,14 @@ class PicoBlazeAsmEncoder():
         elif name_instruction == "INPUT":
             self.__INPUT()
         elif name_instruction == "JUMP":
-            if name_instruction[1] == "C":
+            flag = self.instruction[1]
+            if flag == "C":
                 self.__JUMP_C()
-            elif name_instruction[1] == "NC":
+            elif flag == "NC":
                 self.__JUMP_NC()
-            elif name_instruction[1] == "Z":
+            elif flag == "Z":
                 self.__JUMP_Z()
-            elif name_instruction[1] == "NZ":
+            elif flag == "NZ":
                 self.__JUMP_NZ()
             else:
                 self.__JUMP()
@@ -220,13 +238,14 @@ class PicoBlazeAsmEncoder():
         elif name_instruction == "OUTPUT":
             self.__OUTPUT()
         elif name_instruction == "RETURN":
-            if name_instruction[1] == "C":
+            flag = self.instruction[1]
+            if flag == "C":
                 self.__RETURN_C()
-            elif name_instruction[1] == "NC":
+            elif flag == "NC":
                 self.__RETURN_NC()
-            elif name_instruction[1] == "Z":
+            elif flag == "Z":
                 self.__RETURN_Z()
-            elif name_instruction[1] == "NZ":
+            elif flag == "NZ":
                 self.__RETURN_NZ()
             else:
                 self.__RETURN()
