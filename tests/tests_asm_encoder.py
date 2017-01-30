@@ -86,8 +86,26 @@ def test_encode_operation_ENABLE_INTERRUPT():
 
 def test_encode_operation_INTERRUPT():
     pass
-def test_encode_operation_FETCH():
-    pass
+
+
+def test_encode_operation_FETCH_sx_kk():
+    line_of_code = "FETCH s0, 63"
+    #         "000110xxxx00kkkkkk" 000110
+    binary_instruction_expected = "000110000000111111"  # FETCH s0, kk
+    asm_encoder = PicoBlazeAsmEncoder()
+    asm_encoder.encode_instruction(line_of_code)
+    assert binary_instruction_expected == asm_encoder._PicoBlazeAsmEncoder__encoded_instruction_to_bin
+
+
+def test_encode_operation_FETCH_sx_sy():
+    line_of_code = "FETCH s0, sF"
+    #         "000111xxxxyyyy0000"
+    binary_instruction_expected = "000111000011110000"  # FETCH s0, sF
+    asm_encoder = PicoBlazeAsmEncoder()
+    asm_encoder.encode_instruction(line_of_code)
+    assert binary_instruction_expected == asm_encoder._PicoBlazeAsmEncoder__encoded_instruction_to_bin
+
+
 def test_encode_operation_INPUT():
     pass
 def test_encode_operation_JUMP():
