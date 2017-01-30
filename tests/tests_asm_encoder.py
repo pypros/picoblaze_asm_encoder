@@ -1,5 +1,6 @@
 from asm_encoder import PicoBlazeAsmEncoder
 
+
 def test_encode_operation_ADD_sx_kk():
     line_of_code = "ADD s0, 127"
     #         "011000xxxxkkkkkkkk"
@@ -7,6 +8,7 @@ def test_encode_operation_ADD_sx_kk():
     asm_encoder = PicoBlazeAsmEncoder()
     asm_encoder.encode_instruction(line_of_code)
     assert binary_instruction_expected == asm_encoder._PicoBlazeAsmEncoder__encoded_instruction_to_bin
+
 
 def test_encode_operation_ADD_sx_sy():
     line_of_code = "ADD s0, sF"
@@ -16,6 +18,7 @@ def test_encode_operation_ADD_sx_sy():
     asm_encoder.encode_instruction(line_of_code)
     assert binary_instruction_expected == asm_encoder._PicoBlazeAsmEncoder__encoded_instruction_to_bin
 
+
 def test_encode_operation_ADDCY_sx_kk():
     line_of_code = "ADDCY s0, 127"
     #         "011010xxxxkkkkkkkk"
@@ -23,6 +26,7 @@ def test_encode_operation_ADDCY_sx_kk():
     asm_encoder = PicoBlazeAsmEncoder()
     asm_encoder.encode_instruction(line_of_code)
     assert binary_instruction_expected == asm_encoder._PicoBlazeAsmEncoder__encoded_instruction_to_bin
+
 
 def test_encode_operation_ADDCY_sx_sy():
     line_of_code = "ADDCY s0, sF"
@@ -32,6 +36,7 @@ def test_encode_operation_ADDCY_sx_sy():
     asm_encoder.encode_instruction(line_of_code)
     assert binary_instruction_expected == asm_encoder._PicoBlazeAsmEncoder__encoded_instruction_to_bin
 
+
 def test_encode_operation_AND_sx_kk():
     line_of_code = "AND s0, 127"
     #         "001010xxxxkkkkkkkk"
@@ -40,10 +45,56 @@ def test_encode_operation_AND_sx_kk():
     asm_encoder.encode_instruction(line_of_code)
     assert binary_instruction_expected == asm_encoder._PicoBlazeAsmEncoder__encoded_instruction_to_bin
 
+
 def test_encode_operation_AND_sx_sy():
     line_of_code = "AND s0, sF"
     #         "001011xxxxyyyy0000"
     binary_instruction_expected = "001011000011110000"  # AND s0, sF
+    asm_encoder = PicoBlazeAsmEncoder()
+    asm_encoder.encode_instruction(line_of_code)
+    assert binary_instruction_expected == asm_encoder._PicoBlazeAsmEncoder__encoded_instruction_to_bin
+
+
+def test_encode_operation_CALL():
+    line_of_code = "CALL 3FF"
+    #         "11000fffaaaaaaaaaa"
+    binary_instruction_expected = "110000001111111111"  # CALL 3FF
+    asm_encoder = PicoBlazeAsmEncoder()
+    asm_encoder.encode_instruction(line_of_code)
+    assert binary_instruction_expected == asm_encoder._PicoBlazeAsmEncoder__encoded_instruction_to_bin
+
+
+def test_encode_operation_CALL_C():
+    line_of_code = "CALL C, 3FF"
+    #         "11000fffaaaaaaaaaa"
+    binary_instruction_expected = "110001101111111111"  # CALL C, 3FF
+    asm_encoder = PicoBlazeAsmEncoder()
+    asm_encoder.encode_instruction(line_of_code)
+    assert binary_instruction_expected == asm_encoder._PicoBlazeAsmEncoder__encoded_instruction_to_bin
+
+
+def test_encode_operation_CALL_NC():
+    line_of_code = "CALL NC, 3FF"
+    #         "11000fffaaaaaaaaaa"
+    binary_instruction_expected = "110001111111111111"  # CALL NC, 3FF
+    asm_encoder = PicoBlazeAsmEncoder()
+    asm_encoder.encode_instruction(line_of_code)
+    assert binary_instruction_expected == asm_encoder._PicoBlazeAsmEncoder__encoded_instruction_to_bin
+
+
+def test_encode_operation_CALL_NZ():
+    line_of_code = "CALL NZ, 3FF"
+    #         "11000fffaaaaaaaaaa"
+    binary_instruction_expected = "110001011111111111"  # CALL NZ, 3FF
+    asm_encoder = PicoBlazeAsmEncoder()
+    asm_encoder.encode_instruction(line_of_code)
+    assert binary_instruction_expected == asm_encoder._PicoBlazeAsmEncoder__encoded_instruction_to_bin
+
+
+def test_encode_operation_CALL_Z():
+    line_of_code = "CALL Z, 3FF"
+    #         "11000fffaaaaaaaaaa"
+    binary_instruction_expected = "110001001111111111"  # CALL Z, 3FF
     asm_encoder = PicoBlazeAsmEncoder()
     asm_encoder.encode_instruction(line_of_code)
     assert binary_instruction_expected == asm_encoder._PicoBlazeAsmEncoder__encoded_instruction_to_bin
@@ -56,6 +107,7 @@ def test_encode_operation_COMPARE_sx_kk():
     asm_encoder = PicoBlazeAsmEncoder()
     asm_encoder.encode_instruction(line_of_code)
     assert binary_instruction_expected == asm_encoder._PicoBlazeAsmEncoder__encoded_instruction_to_bin
+
 
 def test_encode_operation_COMPARE_sx_sy():
     line_of_code = "COMPARE s0, sF"
@@ -128,6 +180,7 @@ def test_encode_operation_JUMP():
     asm_encoder.encode_instruction(line_of_code)
     assert binary_instruction_expected == asm_encoder._PicoBlazeAsmEncoder__encoded_instruction_to_bin
 
+
 def test_encode_operation_JUMP_C():
     line_of_code = "JUMP C, 3FF"
     #         "11010fffaaaaaaaaaa"
@@ -135,6 +188,7 @@ def test_encode_operation_JUMP_C():
     asm_encoder = PicoBlazeAsmEncoder()
     asm_encoder.encode_instruction(line_of_code)
     assert binary_instruction_expected == asm_encoder._PicoBlazeAsmEncoder__encoded_instruction_to_bin
+
 
 def test_encode_operation_JUMP_NC():
     line_of_code = "JUMP NC, 3FF"
@@ -144,6 +198,7 @@ def test_encode_operation_JUMP_NC():
     asm_encoder.encode_instruction(line_of_code)
     assert binary_instruction_expected == asm_encoder._PicoBlazeAsmEncoder__encoded_instruction_to_bin
 
+
 def test_encode_operation_JUMP_NZ():
     line_of_code = "JUMP NZ, 3FF"
     #         "11010fffaaaaaaaaaa"
@@ -152,6 +207,7 @@ def test_encode_operation_JUMP_NZ():
     asm_encoder.encode_instruction(line_of_code)
     assert binary_instruction_expected == asm_encoder._PicoBlazeAsmEncoder__encoded_instruction_to_bin
 
+
 def test_encode_operation_JUMP_Z():
     line_of_code = "JUMP Z, 3FF"
     #         "11010fffaaaaaaaaaa"
@@ -159,6 +215,7 @@ def test_encode_operation_JUMP_Z():
     asm_encoder = PicoBlazeAsmEncoder()
     asm_encoder.encode_instruction(line_of_code)
     assert binary_instruction_expected == asm_encoder._PicoBlazeAsmEncoder__encoded_instruction_to_bin
+
 
 def test_encode_operation_LOAD():
     pass
@@ -198,6 +255,7 @@ def test_encode_operation_OUTPUT_sx_sy():
     asm_encoder = PicoBlazeAsmEncoder()
     asm_encoder.encode_instruction(line_of_code)
     assert binary_instruction_expected == asm_encoder._PicoBlazeAsmEncoder__encoded_instruction_to_bin
+
 
 def test_encode_operation_RETURN():
     pass

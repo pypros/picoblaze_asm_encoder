@@ -105,19 +105,40 @@ class PicoBlazeAsmEncoder():
             self.__encoded_instruction_to_bin += ''.join(format(int(self.instruction[2]), 'b')).zfill(8)
 
     def __CALL(self):
-        pass
+        self.__encoded_instruction_to_bin = ""
+        self.instruction = self.instruction.split()
+        self.__encoded_instruction_to_bin += self.operation['CALL']
+        self.__encoded_instruction_to_bin += self.flag['None']
+        self.__encoded_instruction_to_bin += ''.join(format(int(self.instruction[1], 16), 'b')).zfill(10)
+
 
     def __CALL_C(self):
-        pass
+        self.__encoded_instruction_to_bin = ""
+        self.instruction = self.instruction.split()
+        self.__encoded_instruction_to_bin += self.operation['CALL']
+        self.__encoded_instruction_to_bin += self.flag[self.instruction[1][:-1]]
+        self.__encoded_instruction_to_bin += ''.join(format(int(self.instruction[2], 16), 'b')).zfill(10)
 
     def __CALL_NC(self):
-        pass
+        self.__encoded_instruction_to_bin = ""
+        self.instruction = self.instruction.split()
+        self.__encoded_instruction_to_bin += self.operation['CALL']
+        self.__encoded_instruction_to_bin += self.flag[self.instruction[1][:-1]]
+        self.__encoded_instruction_to_bin += ''.join(format(int(self.instruction[2], 16), 'b')).zfill(10)
 
     def __CALL_Z(self):
-        pass
+        self.__encoded_instruction_to_bin = ""
+        self.instruction = self.instruction.split()
+        self.__encoded_instruction_to_bin += self.operation['CALL']
+        self.__encoded_instruction_to_bin += self.flag[self.instruction[1][:-1]]
+        self.__encoded_instruction_to_bin += ''.join(format(int(self.instruction[2], 16), 'b')).zfill(10)
 
     def __CALL_NZ(self):
-        pass
+        self.__encoded_instruction_to_bin = ""
+        self.instruction = self.instruction.split()
+        self.__encoded_instruction_to_bin += self.operation['CALL']
+        self.__encoded_instruction_to_bin += self.flag[self.instruction[1][:-1]]
+        self.__encoded_instruction_to_bin += ''.join(format(int(self.instruction[2], 16), 'b')).zfill(10)
 
     def __COMPARE(self):
         self.__encoded_instruction_to_bin = ""
@@ -426,7 +447,7 @@ class PicoBlazeAsmEncoder():
         elif name_instruction == "AND":
             self.__AND()
         elif name_instruction == "CALL":
-            flag = self.instruction[1]
+            flag = instruction.split()[1][:-1]
             if flag == "C":
                 self.__CALL_C()
             elif flag == "NC":
