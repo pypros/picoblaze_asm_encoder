@@ -267,19 +267,38 @@ class PicoBlazeAsmEncoder():
             self.__encoded_instruction_to_bin += ''.join(format(int(self.instruction[2]), 'b')).zfill(8)
 
     def __RETURN(self):
-        pass
+        self.__encoded_instruction_to_bin = ""
+        self.instruction = self.instruction.split()
+        self.__encoded_instruction_to_bin += self.operation['RETURN']
+        self.__encoded_instruction_to_bin += self.flag['None']
+        self.__encoded_instruction_to_bin += ''.join(format(int(self.instruction[1], 16), 'b')).zfill(10)
 
     def __RETURN_C(self):
-        pass
-
+        self.__encoded_instruction_to_bin = ""
+        self.instruction = self.instruction.split()
+        self.__encoded_instruction_to_bin += self.operation['RETURN']
+        self.__encoded_instruction_to_bin += self.flag[self.instruction[1][:-1]]
+        self.__encoded_instruction_to_bin += ''.join(format(int(self.instruction[2], 16), 'b')).zfill(10)
     def __RETURN_NC(self):
-        pass
+        self.__encoded_instruction_to_bin = ""
+        self.instruction = self.instruction.split()
+        self.__encoded_instruction_to_bin += self.operation['RETURN']
+        self.__encoded_instruction_to_bin += self.flag[self.instruction[1][:-1]]
+        self.__encoded_instruction_to_bin += ''.join(format(int(self.instruction[2], 16), 'b')).zfill(10)
 
     def __RETURN_Z(self):
-        pass
+        self.__encoded_instruction_to_bin = ""
+        self.instruction = self.instruction.split()
+        self.__encoded_instruction_to_bin += self.operation['RETURN']
+        self.__encoded_instruction_to_bin += self.flag[self.instruction[1][:-1]]
+        self.__encoded_instruction_to_bin += ''.join(format(int(self.instruction[2], 16), 'b')).zfill(10)
 
     def __RETURN_NZ(self):
-        pass
+        self.__encoded_instruction_to_bin = ""
+        self.instruction = self.instruction.split()
+        self.__encoded_instruction_to_bin += self.operation['RETURN']
+        self.__encoded_instruction_to_bin += self.flag[self.instruction[1][:-1]]
+        self.__encoded_instruction_to_bin += ''.join(format(int(self.instruction[2], 16), 'b')).zfill(10)
 
     def __RETURNI_DISABLE(self):
         self.__encoded_instruction_to_bin = "111000000000000000"
@@ -498,7 +517,7 @@ class PicoBlazeAsmEncoder():
         elif name_instruction == "OUTPUT":
             self.__OUTPUT()
         elif name_instruction == "RETURN":
-            flag = self.instruction[1]
+            flag = instruction.split()[1][:-1]
             if flag == "C":
                 self.__RETURN_C()
             elif flag == "NC":

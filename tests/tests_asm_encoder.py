@@ -271,8 +271,48 @@ def test_encode_operation_OUTPUT_sx_sy():
 
 
 def test_encode_operation_RETURN():
-    pass
+    line_of_code = "RETURN 3FF"
+    #         "10101fffaaaaaaaaaa" 101100000001111111
+    binary_instruction_expected = "101010001111111111"  # RETURN 3FF
+    asm_encoder = PicoBlazeAsmEncoder()
+    asm_encoder.encode_instruction(line_of_code)
+    assert binary_instruction_expected == asm_encoder._PicoBlazeAsmEncoder__encoded_instruction_to_bin
 
+
+def test_encode_operation_RETURN_C():
+    line_of_code = "RETURN C, 3FF"
+    #         "10101fffaaaaaaaaaa"
+    binary_instruction_expected = "101011101111111111"  # RETURN 3FF
+    asm_encoder = PicoBlazeAsmEncoder()
+    asm_encoder.encode_instruction(line_of_code)
+    assert binary_instruction_expected == asm_encoder._PicoBlazeAsmEncoder__encoded_instruction_to_bin
+
+
+def test_encode_operation_RETURN_NC():
+    line_of_code = "RETURN NC, 3FF"
+    #         "10101fffaaaaaaaaaa"
+    binary_instruction_expected = "101011111111111111"  # RETURN 3FF
+    asm_encoder = PicoBlazeAsmEncoder()
+    asm_encoder.encode_instruction(line_of_code)
+    assert binary_instruction_expected == asm_encoder._PicoBlazeAsmEncoder__encoded_instruction_to_bin
+
+
+def test_encode_operation_RETURN_NZ():
+    line_of_code = "RETURN NZ, 3FF"
+    #         "10101fffaaaaaaaaaa"
+    binary_instruction_expected = "101011011111111111"  # RETURN 3FF
+    asm_encoder = PicoBlazeAsmEncoder()
+    asm_encoder.encode_instruction(line_of_code)
+    assert binary_instruction_expected == asm_encoder._PicoBlazeAsmEncoder__encoded_instruction_to_bin
+
+
+def test_encode_operation_RETURN_Z():
+    line_of_code = "RETURN Z, 3FF"
+    #         "10101fffaaaaaaaaaa"
+    binary_instruction_expected = "101011001111111111"  # RETURN 3FF
+    asm_encoder = PicoBlazeAsmEncoder()
+    asm_encoder.encode_instruction(line_of_code)
+    assert binary_instruction_expected == asm_encoder._PicoBlazeAsmEncoder__encoded_instruction_to_bin
 
 def test_encode_operation_RETURNI_DISABLE():
     line_of_code = "RETURNI DISABLE"
