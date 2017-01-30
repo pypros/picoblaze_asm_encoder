@@ -16,6 +16,16 @@ class PicoBlazeAsmEncoder():
             "RETURN": "10101",
             "RETURNI": "11100",
             "SHIFT": "10000",
+            'RL': '0010',
+            'RR': '1100',
+            'SL0': '0110',
+            'SL1': '0111',
+            'SLA': '0000',
+            'SLX': '0100',
+            'SR0': '1110',
+            'SR1': '1111',
+            'SRA': '1000',
+            'SRX': '1010',
             "STORE": "10111",
             "SUB": "01110",
             "SUBCY": "01111",
@@ -195,8 +205,95 @@ class PicoBlazeAsmEncoder():
             self.__encoded_instruction_to_bin += self.register[self.instruction[1][:-1]]
             self.__encoded_instruction_to_bin += ''.join(format(int(self.instruction[2]), 'b')).zfill(8)
 
-    def __RESET(self):
-        pass
+    def __RL(self):
+        self.__encoded_instruction_to_bin = ""
+        self.instruction = self.instruction.split()
+        self.__encoded_instruction_to_bin += self.operation['SHIFT']
+        self.__encoded_instruction_to_bin += '0'
+        self.__encoded_instruction_to_bin += self.register[self.instruction[1]]
+        self.__encoded_instruction_to_bin += '0000'
+        self.__encoded_instruction_to_bin += self.operation[self.instruction[0]]
+
+    def __RR(self):
+        self.__encoded_instruction_to_bin = ""
+        self.instruction = self.instruction.split()
+        self.__encoded_instruction_to_bin += self.operation['SHIFT']
+        self.__encoded_instruction_to_bin += '0'
+        self.__encoded_instruction_to_bin += self.register[self.instruction[1]]
+        self.__encoded_instruction_to_bin += '0000'
+        self.__encoded_instruction_to_bin += self.operation[self.instruction[0]]
+
+    def __SL0(self):
+        self.__encoded_instruction_to_bin = ""
+        self.instruction = self.instruction.split()
+        self.__encoded_instruction_to_bin += self.operation['SHIFT']
+        self.__encoded_instruction_to_bin += '0'
+        self.__encoded_instruction_to_bin += self.register[self.instruction[1]]
+        self.__encoded_instruction_to_bin += '0000'
+        self.__encoded_instruction_to_bin += self.operation[self.instruction[0]]
+
+    def __SL1(self):
+        self.__encoded_instruction_to_bin = ""
+        self.instruction = self.instruction.split()
+        self.__encoded_instruction_to_bin += self.operation['SHIFT']
+        self.__encoded_instruction_to_bin += '0'
+        self.__encoded_instruction_to_bin += self.register[self.instruction[1]]
+        self.__encoded_instruction_to_bin += '0000'
+        self.__encoded_instruction_to_bin += self.operation[self.instruction[0]]
+
+    def __SLA(self):
+        self.__encoded_instruction_to_bin = ""
+        self.instruction = self.instruction.split()
+        self.__encoded_instruction_to_bin += self.operation['SHIFT']
+        self.__encoded_instruction_to_bin += '0'
+        self.__encoded_instruction_to_bin += self.register[self.instruction[1]]
+        self.__encoded_instruction_to_bin += '0000'
+        self.__encoded_instruction_to_bin += self.operation[self.instruction[0]]
+
+    def __SLX(self):
+        self.__encoded_instruction_to_bin = ""
+        self.instruction = self.instruction.split()
+        self.__encoded_instruction_to_bin += self.operation['SHIFT']
+        self.__encoded_instruction_to_bin += '0'
+        self.__encoded_instruction_to_bin += self.register[self.instruction[1]]
+        self.__encoded_instruction_to_bin += '0000'
+        self.__encoded_instruction_to_bin += self.operation[self.instruction[0]]
+
+    def __SR0(self):
+        self.__encoded_instruction_to_bin = ""
+        self.instruction = self.instruction.split()
+        self.__encoded_instruction_to_bin += self.operation['SHIFT']
+        self.__encoded_instruction_to_bin += '0'
+        self.__encoded_instruction_to_bin += self.register[self.instruction[1]]
+        self.__encoded_instruction_to_bin += '0000'
+        self.__encoded_instruction_to_bin += self.operation[self.instruction[0]]
+
+    def __SR1(self):
+        self.__encoded_instruction_to_bin = ""
+        self.instruction = self.instruction.split()
+        self.__encoded_instruction_to_bin += self.operation['SHIFT']
+        self.__encoded_instruction_to_bin += '0'
+        self.__encoded_instruction_to_bin += self.register[self.instruction[1]]
+        self.__encoded_instruction_to_bin += '0000'
+        self.__encoded_instruction_to_bin += self.operation[self.instruction[0]]
+
+    def __SRA(self):
+        self.__encoded_instruction_to_bin = ""
+        self.instruction = self.instruction.split()
+        self.__encoded_instruction_to_bin += self.operation['SHIFT']
+        self.__encoded_instruction_to_bin += '0'
+        self.__encoded_instruction_to_bin += self.register[self.instruction[1]]
+        self.__encoded_instruction_to_bin += '0000'
+        self.__encoded_instruction_to_bin += self.operation[self.instruction[0]]
+
+    def __SRX(self):
+        self.__encoded_instruction_to_bin = ""
+        self.instruction = self.instruction.split()
+        self.__encoded_instruction_to_bin += self.operation['SHIFT']
+        self.__encoded_instruction_to_bin += '0'
+        self.__encoded_instruction_to_bin += self.register[self.instruction[1]]
+        self.__encoded_instruction_to_bin += '0000'
+        self.__encoded_instruction_to_bin += self.operation[self.instruction[0]]
 
     def __RETURN(self):
         pass
@@ -219,35 +316,35 @@ class PicoBlazeAsmEncoder():
     def __RETURNI_ENABLE(self):
         self.__encoded_instruction_to_bin = "111000000000000001"
 
-    def __RL(self):
-        pass
-
-    def __RR(self):
-        pass
-
-    def __SL0(self):
-        pass
-
-    def __SL1(self):
-        pass
-
-    def __SLA(self):
-        pass
-
-    def __SLX(self):
-        pass
-
-    def __SR0(self):
-        pass
-
-    def __SR1(self):
-        pass
-
-    def __SRA(self):
-        pass
-
-    def __SRX(self):
-        pass
+    # def __RL(self):
+    #     pass
+    #
+    # def __RR(self):
+    #     pass
+    #
+    # def __SL0(self):
+    #     pass
+    #
+    # def __SL1(self):
+    #     pass
+    #
+    # def __SLA(self):
+    #     pass
+    #
+    # def __SLX(self):
+    #     pass
+    #
+    # def __SR0(self):
+    #     pass
+    #
+    # def __SR1(self):
+    #     pass
+    #
+    # def __SRA(self):
+    #     pass
+    #
+    # def __SRX(self):
+    #     pass
 
     def __STORE(self):
         self.__encoded_instruction_to_bin = ""

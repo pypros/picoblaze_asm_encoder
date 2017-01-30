@@ -183,8 +183,94 @@ def test_encode_operation_RETURNI_ENABLE():
     assert binary_instruction_expected == asm_encoder._PicoBlazeAsmEncoder__encoded_instruction_to_bin
 
 
-def test_encode_operation_SHIFT():
-    pass
+def test_encode_operation_RL_sx():
+    line_of_code = "RL s0"
+    #         "100000xxxx00000010"
+    binary_instruction_expected = "100000000000000010"  # RL s0
+    asm_encoder = PicoBlazeAsmEncoder()
+    asm_encoder.encode_instruction(line_of_code)
+    assert binary_instruction_expected == asm_encoder._PicoBlazeAsmEncoder__encoded_instruction_to_bin
+
+
+def test_encode_operation_RR_sx():
+    line_of_code = "RR s0"
+    #         "100000xxxx00001100"
+    binary_instruction_expected = "100000000000001100"  # RR s0
+    asm_encoder = PicoBlazeAsmEncoder()
+    asm_encoder.encode_instruction(line_of_code)
+    assert binary_instruction_expected == asm_encoder._PicoBlazeAsmEncoder__encoded_instruction_to_bin
+
+
+def test_encode_operation_SL0_sx():
+    line_of_code = "SL0 s0"
+    #         "100000xxxx00000110"
+    binary_instruction_expected = "100000000000000110"  # SL0 s0
+    asm_encoder = PicoBlazeAsmEncoder()
+    asm_encoder.encode_instruction(line_of_code)
+    assert binary_instruction_expected == asm_encoder._PicoBlazeAsmEncoder__encoded_instruction_to_bin
+
+
+def test_encode_operation_SL1_sx():
+    line_of_code = "SL1 s0"
+    #         "100000xxxx00000111"
+    binary_instruction_expected = "100000000000000111"  # SL1 s0
+    asm_encoder = PicoBlazeAsmEncoder()
+    asm_encoder.encode_instruction(line_of_code)
+    assert binary_instruction_expected == asm_encoder._PicoBlazeAsmEncoder__encoded_instruction_to_bin
+
+
+def test_encode_operation_SLA_sx():
+    line_of_code = "SLA s0"
+    #         "100000xxxx00000000"
+    binary_instruction_expected = "100000000000000000"  # SLA s0
+    asm_encoder = PicoBlazeAsmEncoder()
+    asm_encoder.encode_instruction(line_of_code)
+    assert binary_instruction_expected == asm_encoder._PicoBlazeAsmEncoder__encoded_instruction_to_bin
+
+
+def test_encode_operation_SLX_sx():
+    line_of_code = "SLX s0"
+    #         "100000xxxx00000100"
+    binary_instruction_expected = "100000000000000100"  # SLX s0
+    asm_encoder = PicoBlazeAsmEncoder()
+    asm_encoder.encode_instruction(line_of_code)
+    assert binary_instruction_expected == asm_encoder._PicoBlazeAsmEncoder__encoded_instruction_to_bin
+
+
+def test_encode_operation_SR0_sx():
+    line_of_code = "SR0 s0"
+    #         "100000xxxx00001110"
+    binary_instruction_expected = "100000000000001110"  # SR0 s0
+    asm_encoder = PicoBlazeAsmEncoder()
+    asm_encoder.encode_instruction(line_of_code)
+    assert binary_instruction_expected == asm_encoder._PicoBlazeAsmEncoder__encoded_instruction_to_bin
+
+
+def test_encode_operation_SR1_sx():
+    line_of_code = "SR1 s0"
+    #         "100000xxxx00001111"
+    binary_instruction_expected = "100000000000001111"  # SR1 s0
+    asm_encoder = PicoBlazeAsmEncoder()
+    asm_encoder.encode_instruction(line_of_code)
+    assert binary_instruction_expected == asm_encoder._PicoBlazeAsmEncoder__encoded_instruction_to_bin
+
+
+def test_encode_operation_SRA_sx():
+    line_of_code = "SRA s0"
+    #         "100000xxxx00001000"
+    binary_instruction_expected = "100000000000001000"  # SRA s0
+    asm_encoder = PicoBlazeAsmEncoder()
+    asm_encoder.encode_instruction(line_of_code)
+    assert binary_instruction_expected == asm_encoder._PicoBlazeAsmEncoder__encoded_instruction_to_bin
+
+
+def test_encode_operation_SRX_sx():
+    line_of_code = "SRX s0"
+    #         "100000xxxx00001010"
+    binary_instruction_expected = "100000000000001010"  # SRX s0
+    asm_encoder = PicoBlazeAsmEncoder()
+    asm_encoder.encode_instruction(line_of_code)
+    assert binary_instruction_expected == asm_encoder._PicoBlazeAsmEncoder__encoded_instruction_to_bin
 
 
 def test_encode_operation_STORE_sx_ss():
