@@ -121,7 +121,45 @@ def test_encode_operation_INPUT_sx_sy():
 
 
 def test_encode_operation_JUMP():
-    pass
+    line_of_code = "JUMP 3FF"
+    #         "11010fffaaaaaaaaaa"
+    binary_instruction_expected = "110100001111111111"  # JUMP 3FF
+    asm_encoder = PicoBlazeAsmEncoder()
+    asm_encoder.encode_instruction(line_of_code)
+    assert binary_instruction_expected == asm_encoder._PicoBlazeAsmEncoder__encoded_instruction_to_bin
+
+def test_encode_operation_JUMP_C():
+    line_of_code = "JUMP C, 3FF"
+    #         "11010fffaaaaaaaaaa"
+    binary_instruction_expected = "110101101111111111"  # JUMP 3FF
+    asm_encoder = PicoBlazeAsmEncoder()
+    asm_encoder.encode_instruction(line_of_code)
+    assert binary_instruction_expected == asm_encoder._PicoBlazeAsmEncoder__encoded_instruction_to_bin
+
+def test_encode_operation_JUMP_NC():
+    line_of_code = "JUMP NC, 3FF"
+    #         "11010fffaaaaaaaaaa"
+    binary_instruction_expected = "110101111111111111"  # JUMP 3FF
+    asm_encoder = PicoBlazeAsmEncoder()
+    asm_encoder.encode_instruction(line_of_code)
+    assert binary_instruction_expected == asm_encoder._PicoBlazeAsmEncoder__encoded_instruction_to_bin
+
+def test_encode_operation_JUMP_NZ():
+    line_of_code = "JUMP NZ, 3FF"
+    #         "11010fffaaaaaaaaaa"
+    binary_instruction_expected = "110101011111111111"  # JUMP 3FF
+    asm_encoder = PicoBlazeAsmEncoder()
+    asm_encoder.encode_instruction(line_of_code)
+    assert binary_instruction_expected == asm_encoder._PicoBlazeAsmEncoder__encoded_instruction_to_bin
+
+def test_encode_operation_JUMP_Z():
+    line_of_code = "JUMP Z, 3FF"
+    #         "11010fffaaaaaaaaaa"
+    binary_instruction_expected = "110101001111111111"  # JUMP 3FF
+    asm_encoder = PicoBlazeAsmEncoder()
+    asm_encoder.encode_instruction(line_of_code)
+    assert binary_instruction_expected == asm_encoder._PicoBlazeAsmEncoder__encoded_instruction_to_bin
+
 def test_encode_operation_LOAD():
     pass
 

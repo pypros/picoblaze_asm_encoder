@@ -33,6 +33,14 @@ class PicoBlazeAsmEncoder():
             "XOR": "00111"
         }
 
+        self.flag = {
+            'None': '000',
+            'C': '110',
+            'NC': '111',
+            'NZ': '101',
+            'Z': '100'
+        }
+
         self.register = {
             "s0": "0000",
             "s1": "0001",
@@ -160,19 +168,40 @@ class PicoBlazeAsmEncoder():
             self.__encoded_instruction_to_bin += ''.join(format(int(self.instruction[2]), 'b')).zfill(8)
 
     def __JUMP(self):
-        pass
+        self.__encoded_instruction_to_bin = ""
+        self.instruction = self.instruction.split()
+        self.__encoded_instruction_to_bin += self.operation['JUMP']
+        self.__encoded_instruction_to_bin += self.flag['None']
+        self.__encoded_instruction_to_bin += ''.join(format(int(self.instruction[1], 16), 'b')).zfill(10)
+
 
     def __JUMP_C(self):
-        pass
+        self.__encoded_instruction_to_bin = ""
+        self.instruction = self.instruction.split()
+        self.__encoded_instruction_to_bin += self.operation['JUMP']
+        self.__encoded_instruction_to_bin += self.flag[self.instruction[1][:-1]]
+        self.__encoded_instruction_to_bin += ''.join(format(int(self.instruction[2], 16), 'b')).zfill(10)
 
     def __JUMP_NC(self):
-        pass
+        self.__encoded_instruction_to_bin = ""
+        self.instruction = self.instruction.split()
+        self.__encoded_instruction_to_bin += self.operation['JUMP']
+        self.__encoded_instruction_to_bin += self.flag[self.instruction[1][:-1]]
+        self.__encoded_instruction_to_bin += ''.join(format(int(self.instruction[2], 16), 'b')).zfill(10)
 
     def __JUMP_Z(self):
-        pass
+        self.__encoded_instruction_to_bin = ""
+        self.instruction = self.instruction.split()
+        self.__encoded_instruction_to_bin += self.operation['JUMP']
+        self.__encoded_instruction_to_bin += self.flag[self.instruction[1][:-1]]
+        self.__encoded_instruction_to_bin += ''.join(format(int(self.instruction[2], 16), 'b')).zfill(10)
 
     def __JUMP_NZ(self):
-        pass
+        self.__encoded_instruction_to_bin = ""
+        self.instruction = self.instruction.split()
+        self.__encoded_instruction_to_bin += self.operation['JUMP']
+        self.__encoded_instruction_to_bin += self.flag[self.instruction[1][:-1]]
+        self.__encoded_instruction_to_bin += ''.join(format(int(self.instruction[2], 16), 'b')).zfill(10)
 
     def __LOAD(self):
         pass
@@ -204,6 +233,27 @@ class PicoBlazeAsmEncoder():
             self.__encoded_instruction_to_bin += '0'
             self.__encoded_instruction_to_bin += self.register[self.instruction[1][:-1]]
             self.__encoded_instruction_to_bin += ''.join(format(int(self.instruction[2]), 'b')).zfill(8)
+
+    def __RETURN(self):
+        pass
+
+    def __RETURN_C(self):
+        pass
+
+    def __RETURN_NC(self):
+        pass
+
+    def __RETURN_Z(self):
+        pass
+
+    def __RETURN_NZ(self):
+        pass
+
+    def __RETURNI_DISABLE(self):
+        self.__encoded_instruction_to_bin = "111000000000000000"
+
+    def __RETURNI_ENABLE(self):
+        self.__encoded_instruction_to_bin = "111000000000000001"
 
     def __RL(self):
         self.__encoded_instruction_to_bin = ""
@@ -294,57 +344,6 @@ class PicoBlazeAsmEncoder():
         self.__encoded_instruction_to_bin += self.register[self.instruction[1]]
         self.__encoded_instruction_to_bin += '0000'
         self.__encoded_instruction_to_bin += self.operation[self.instruction[0]]
-
-    def __RETURN(self):
-        pass
-
-    def __RETURN_C(self):
-        pass
-
-    def __RETURN_NC(self):
-        pass
-
-    def __RETURN_Z(self):
-        pass
-
-    def __RETURN_NZ(self):
-        pass
-
-    def __RETURNI_DISABLE(self):
-        self.__encoded_instruction_to_bin = "111000000000000000"
-
-    def __RETURNI_ENABLE(self):
-        self.__encoded_instruction_to_bin = "111000000000000001"
-
-    # def __RL(self):
-    #     pass
-    #
-    # def __RR(self):
-    #     pass
-    #
-    # def __SL0(self):
-    #     pass
-    #
-    # def __SL1(self):
-    #     pass
-    #
-    # def __SLA(self):
-    #     pass
-    #
-    # def __SLX(self):
-    #     pass
-    #
-    # def __SR0(self):
-    #     pass
-    #
-    # def __SR1(self):
-    #     pass
-    #
-    # def __SRA(self):
-    #     pass
-    #
-    # def __SRX(self):
-    #     pass
 
     def __STORE(self):
         self.__encoded_instruction_to_bin = ""
@@ -449,7 +448,7 @@ class PicoBlazeAsmEncoder():
         elif name_instruction == "INPUT":
             self.__INPUT()
         elif name_instruction == "JUMP":
-            flag = self.instruction[1]
+            flag = instruction.split()[1][:-1]
             if flag == "C":
                 self.__JUMP_C()
             elif flag == "NC":
