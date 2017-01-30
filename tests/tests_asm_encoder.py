@@ -217,9 +217,22 @@ def test_encode_operation_JUMP_Z():
     assert binary_instruction_expected == asm_encoder._PicoBlazeAsmEncoder__encoded_instruction_to_bin
 
 
-def test_encode_operation_LOAD():
-    pass
+def test_encode_operation_LOAD_sx_kk():
+    line_of_code = "LOAD s0, 127"
+    #         "000000xxxxkkkkkkkk"
+    binary_instruction_expected = "000000000001111111"  # LOAD s0, kk
+    asm_encoder = PicoBlazeAsmEncoder()
+    asm_encoder.encode_instruction(line_of_code)
+    assert binary_instruction_expected == asm_encoder._PicoBlazeAsmEncoder__encoded_instruction_to_bin
 
+
+def test_encode_operation_LOAD_sx_sy():
+    line_of_code = "LOAD s0, sF"
+    #         "000000xxxxyyyy0000" 000000
+    binary_instruction_expected = "000001000011110000"  # LOAD s0, sF
+    asm_encoder = PicoBlazeAsmEncoder()
+    asm_encoder.encode_instruction(line_of_code)
+    assert binary_instruction_expected == asm_encoder._PicoBlazeAsmEncoder__encoded_instruction_to_bin
 
 def test_encode_operation_OR_sx_kk():
     line_of_code = "OR s0, 127"
