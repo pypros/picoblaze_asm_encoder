@@ -59,12 +59,11 @@ class PicoBlazeAsmEncoder():
             "sE": "1110",
             "sF": "1111"
         }
-
+        self.instruction = None
         self.__encoded_instruction_to_bin = ''
 
     def __instructinon_sx_and_kk_or_sy(self):
         self.__encoded_instruction_to_bin = ""
-        self.instruction = self.instruction.split()
         self.__encoded_instruction_to_bin += self.operation[self.instruction[0]]
         if self.instruction[2].find('s') != -1:
             self.__encoded_instruction_to_bin += '1'
@@ -78,7 +77,6 @@ class PicoBlazeAsmEncoder():
 
     def __instruction_with_flags(self, name_instruction):
         self.__encoded_instruction_to_bin = ""
-        self.instruction = self.instruction.split()
         self.__encoded_instruction_to_bin += self.operation[name_instruction]
         flags = ['C,', 'NC,', 'NZ,', 'Z,']
         if self.instruction[1] in flags:
@@ -92,7 +90,6 @@ class PicoBlazeAsmEncoder():
 
     def __instruction_SHIFT(self):
         self.__encoded_instruction_to_bin = ""
-        self.instruction = self.instruction.split()
         self.__encoded_instruction_to_bin += self.operation['SHIFT']
         self.__encoded_instruction_to_bin += '0'
         self.__encoded_instruction_to_bin += self.register[self.instruction[1]]
@@ -230,9 +227,8 @@ class PicoBlazeAsmEncoder():
         self.__instructinon_sx_and_kk_or_sy()
 
     def encode_instruction(self, instruction):
-        self.instruction = instruction
-        name_instruction = instruction.split()[0]
-        second_name_instruction = instruction.split()[1]
+        self.instruction = instruction.split()
+        name_instruction = self.instruction[0]
         if name_instruction == "ADD":
             self.__ADD()
         elif name_instruction == "ADDCY":
@@ -240,14 +236,14 @@ class PicoBlazeAsmEncoder():
         elif name_instruction == "AND":
             self.__AND()
         elif name_instruction == "CALL":
-            flag = instruction.split()[1][:-1]
-            if flag == "C":
+            flag = self.instruction[1]
+            if flag == "C,":
                 self.__CALL_C()
-            elif flag == "NC":
+            elif flag == "NC,":
                 self.__CALL_NC()
-            elif flag == "Z":
+            elif flag == "Z,":
                 self.__CALL_Z()
-            elif flag == "NZ":
+            elif flag == "NZ,":
                 self.__CALL_NZ()
             else:
                 self.__CALL()
@@ -262,14 +258,14 @@ class PicoBlazeAsmEncoder():
         elif name_instruction == "INPUT":
             self.__INPUT()
         elif name_instruction == "JUMP":
-            flag = instruction.split()[1][:-1]
-            if flag == "C":
+            flag = self.instruction[1]
+            if flag == "C,":
                 self.__JUMP_C()
-            elif flag == "NC":
+            elif flag == "NC,":
                 self.__JUMP_NC()
-            elif flag == "Z":
+            elif flag == "Z,":
                 self.__JUMP_Z()
-            elif flag == "NZ":
+            elif flag == "NZ,":
                 self.__JUMP_NZ()
             else:
                 self.__JUMP()
@@ -280,21 +276,22 @@ class PicoBlazeAsmEncoder():
         elif name_instruction == "OUTPUT":
             self.__OUTPUT()
         elif name_instruction == "RETURN":
-            flag = instruction.split()[1][:-1]
-            if flag == "C":
+            flag = self.instruction[1]
+            if flag == "C,":
                 self.__RETURN_C()
-            elif flag == "NC":
+            elif flag == "NC,":
                 self.__RETURN_NC()
-            elif flag == "Z":
+            elif flag == "Z,":
                 self.__RETURN_Z()
-            elif flag == "NZ":
+            elif flag == "NZ,":
                 self.__RETURN_NZ()
             else:
                 self.__RETURN()
         elif name_instruction == "RETURNI":
-            if second_name_instruction == "DISABLE":
+            flag = self.instruction[1]
+            if flag == "DISABLE":
                 self.__RETURNI_DISABLE()
-            elif second_name_instruction == "ENABLE":
+            elif flag == "ENABLE":
                 self.__RETURNI_ENABLE()
         elif name_instruction == "RL":
             self.__RL()
