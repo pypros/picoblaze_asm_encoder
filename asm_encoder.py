@@ -35,10 +35,10 @@ class PicoBlazeAsmEncoder():
 
         self.flag = {
             'None': '000',
-            'C': '110',
-            'NC': '111',
-            'NZ': '101',
-            'Z': '100'
+            'C,': '110',
+            'NC,': '111',
+            'NZ,': '101',
+            'Z,': '100'
         }
 
         self.register = {
@@ -62,7 +62,7 @@ class PicoBlazeAsmEncoder():
 
         self.__encoded_instruction_to_bin = ''
 
-    def __ADD(self):
+    def __instructinon_sx_and_kk_or_sy(self):
         self.__encoded_instruction_to_bin = ""
         self.instruction = self.instruction.split()
         self.__encoded_instruction_to_bin += self.operation[self.instruction[0]]
@@ -75,84 +75,56 @@ class PicoBlazeAsmEncoder():
             self.__encoded_instruction_to_bin += '0'
             self.__encoded_instruction_to_bin += self.register[self.instruction[1][:-1]]
             self.__encoded_instruction_to_bin += ''.join(format(int(self.instruction[2]), 'b')).zfill(8)
+
+    def __instruction_with_flags(self, name_instruction):
+        self.__encoded_instruction_to_bin = ""
+        self.instruction = self.instruction.split()
+        self.__encoded_instruction_to_bin += self.operation[name_instruction]
+        flags = ['C,', 'NC,', 'NZ,', 'Z,']
+        if self.instruction[1] in flags:
+            flag = self.instruction[1]
+            self.__encoded_instruction_to_bin += self.flag[flag]
+            self.__encoded_instruction_to_bin += ''.join(format(int(self.instruction[2], 16), 'b')).zfill(10)
+        else:
+            flag = 'None'
+            self.__encoded_instruction_to_bin += self.flag[flag]
+            self.__encoded_instruction_to_bin += ''.join(format(int(self.instruction[1], 16), 'b')).zfill(10)
+
+    def __instruction_SHIFT(self):
+        self.__encoded_instruction_to_bin = ""
+        self.instruction = self.instruction.split()
+        self.__encoded_instruction_to_bin += self.operation['SHIFT']
+        self.__encoded_instruction_to_bin += '0'
+        self.__encoded_instruction_to_bin += self.register[self.instruction[1]]
+        self.__encoded_instruction_to_bin += '0000'
+        self.__encoded_instruction_to_bin += self.operation[self.instruction[0]]
+
+    def __ADD(self):
+       self.__instructinon_sx_and_kk_or_sy()
 
     def __ADDCY(self):
-        self.__encoded_instruction_to_bin = ""
-        self.instruction = self.instruction.split()
-        self.__encoded_instruction_to_bin += self.operation[self.instruction[0]]
-        if self.instruction[2].find('s') != -1:
-            self.__encoded_instruction_to_bin += '1'
-            self.__encoded_instruction_to_bin += self.register[self.instruction[1][:-1]]
-            self.__encoded_instruction_to_bin += self.register[self.instruction[2]]
-            self.__encoded_instruction_to_bin += '0000'
-        else:
-            self.__encoded_instruction_to_bin += '0'
-            self.__encoded_instruction_to_bin += self.register[self.instruction[1][:-1]]
-            self.__encoded_instruction_to_bin += ''.join(format(int(self.instruction[2]), 'b')).zfill(8)
+        self.__instructinon_sx_and_kk_or_sy()
 
     def __AND(self):
-        self.__encoded_instruction_to_bin = ""
-        self.instruction = self.instruction.split()
-        self.__encoded_instruction_to_bin += self.operation[self.instruction[0]]
-        if self.instruction[2].find('s') != -1:
-            self.__encoded_instruction_to_bin += '1'
-            self.__encoded_instruction_to_bin += self.register[self.instruction[1][:-1]]
-            self.__encoded_instruction_to_bin += self.register[self.instruction[2]]
-            self.__encoded_instruction_to_bin += '0000'
-        else:
-            self.__encoded_instruction_to_bin += '0'
-            self.__encoded_instruction_to_bin += self.register[self.instruction[1][:-1]]
-            self.__encoded_instruction_to_bin += ''.join(format(int(self.instruction[2]), 'b')).zfill(8)
+        self.__instructinon_sx_and_kk_or_sy()
 
     def __CALL(self):
-        self.__encoded_instruction_to_bin = ""
-        self.instruction = self.instruction.split()
-        self.__encoded_instruction_to_bin += self.operation['CALL']
-        self.__encoded_instruction_to_bin += self.flag['None']
-        self.__encoded_instruction_to_bin += ''.join(format(int(self.instruction[1], 16), 'b')).zfill(10)
-
+        self.__instruction_with_flags('CALL')
 
     def __CALL_C(self):
-        self.__encoded_instruction_to_bin = ""
-        self.instruction = self.instruction.split()
-        self.__encoded_instruction_to_bin += self.operation['CALL']
-        self.__encoded_instruction_to_bin += self.flag[self.instruction[1][:-1]]
-        self.__encoded_instruction_to_bin += ''.join(format(int(self.instruction[2], 16), 'b')).zfill(10)
+        self.__instruction_with_flags('CALL')
 
     def __CALL_NC(self):
-        self.__encoded_instruction_to_bin = ""
-        self.instruction = self.instruction.split()
-        self.__encoded_instruction_to_bin += self.operation['CALL']
-        self.__encoded_instruction_to_bin += self.flag[self.instruction[1][:-1]]
-        self.__encoded_instruction_to_bin += ''.join(format(int(self.instruction[2], 16), 'b')).zfill(10)
+        self.__instruction_with_flags('CALL')
 
     def __CALL_Z(self):
-        self.__encoded_instruction_to_bin = ""
-        self.instruction = self.instruction.split()
-        self.__encoded_instruction_to_bin += self.operation['CALL']
-        self.__encoded_instruction_to_bin += self.flag[self.instruction[1][:-1]]
-        self.__encoded_instruction_to_bin += ''.join(format(int(self.instruction[2], 16), 'b')).zfill(10)
+        self.__instruction_with_flags('CALL')
 
     def __CALL_NZ(self):
-        self.__encoded_instruction_to_bin = ""
-        self.instruction = self.instruction.split()
-        self.__encoded_instruction_to_bin += self.operation['CALL']
-        self.__encoded_instruction_to_bin += self.flag[self.instruction[1][:-1]]
-        self.__encoded_instruction_to_bin += ''.join(format(int(self.instruction[2], 16), 'b')).zfill(10)
+        self.__instruction_with_flags('CALL')
 
     def __COMPARE(self):
-        self.__encoded_instruction_to_bin = ""
-        self.instruction = self.instruction.split()
-        self.__encoded_instruction_to_bin += self.operation[self.instruction[0]]
-        if self.instruction[2].find('s') != -1:
-            self.__encoded_instruction_to_bin += '1'
-            self.__encoded_instruction_to_bin += self.register[self.instruction[1][:-1]]
-            self.__encoded_instruction_to_bin += self.register[self.instruction[2]]
-            self.__encoded_instruction_to_bin += '0000'
-        else:
-            self.__encoded_instruction_to_bin += '0'
-            self.__encoded_instruction_to_bin += self.register[self.instruction[1][:-1]]
-            self.__encoded_instruction_to_bin += ''.join(format(int(self.instruction[2]), 'b')).zfill(8)
+        self.__instructinon_sx_and_kk_or_sy()
 
     def __DISABLE_INTERRUPT(self):
         self.__encoded_instruction_to_bin = "111100000000000000"
@@ -161,144 +133,50 @@ class PicoBlazeAsmEncoder():
         self.__encoded_instruction_to_bin = "111100000000000001"
 
     def __FETCH(self):
-        self.__encoded_instruction_to_bin = ""
-        self.instruction = self.instruction.split()
-        self.__encoded_instruction_to_bin += self.operation[self.instruction[0]]
-        if self.instruction[2].find('s') != -1:
-            self.__encoded_instruction_to_bin += '1'
-            self.__encoded_instruction_to_bin += self.register[self.instruction[1][:-1]]
-            self.__encoded_instruction_to_bin += self.register[self.instruction[2]]
-            self.__encoded_instruction_to_bin += '0000'
-        else:
-            self.__encoded_instruction_to_bin += '0'
-            self.__encoded_instruction_to_bin += self.register[self.instruction[1][:-1]]
-            self.__encoded_instruction_to_bin += ''.join(format(int(self.instruction[2]), 'b')).zfill(8)
+        self.__instructinon_sx_and_kk_or_sy()
 
     def __INPUT(self):
-        self.__encoded_instruction_to_bin = ""
-        self.instruction = self.instruction.split()
-        self.__encoded_instruction_to_bin += self.operation[self.instruction[0]]
-        if self.instruction[2].find('s') != -1:
-            self.__encoded_instruction_to_bin += '1'
-            self.__encoded_instruction_to_bin += self.register[self.instruction[1][:-1]]
-            self.__encoded_instruction_to_bin += self.register[self.instruction[2]]
-            self.__encoded_instruction_to_bin += '0000'
-        else:
-            self.__encoded_instruction_to_bin += '0'
-            self.__encoded_instruction_to_bin += self.register[self.instruction[1][:-1]]
-            self.__encoded_instruction_to_bin += ''.join(format(int(self.instruction[2]), 'b')).zfill(8)
+        self.__instructinon_sx_and_kk_or_sy()
 
     def __JUMP(self):
-        self.__encoded_instruction_to_bin = ""
-        self.instruction = self.instruction.split()
-        self.__encoded_instruction_to_bin += self.operation['JUMP']
-        self.__encoded_instruction_to_bin += self.flag['None']
-        self.__encoded_instruction_to_bin += ''.join(format(int(self.instruction[1], 16), 'b')).zfill(10)
+        self.__instruction_with_flags('JUMP')
 
 
     def __JUMP_C(self):
-        self.__encoded_instruction_to_bin = ""
-        self.instruction = self.instruction.split()
-        self.__encoded_instruction_to_bin += self.operation['JUMP']
-        self.__encoded_instruction_to_bin += self.flag[self.instruction[1][:-1]]
-        self.__encoded_instruction_to_bin += ''.join(format(int(self.instruction[2], 16), 'b')).zfill(10)
+        self.__instruction_with_flags('JUMP')
 
     def __JUMP_NC(self):
-        self.__encoded_instruction_to_bin = ""
-        self.instruction = self.instruction.split()
-        self.__encoded_instruction_to_bin += self.operation['JUMP']
-        self.__encoded_instruction_to_bin += self.flag[self.instruction[1][:-1]]
-        self.__encoded_instruction_to_bin += ''.join(format(int(self.instruction[2], 16), 'b')).zfill(10)
+        self.__instruction_with_flags('JUMP')
 
     def __JUMP_Z(self):
-        self.__encoded_instruction_to_bin = ""
-        self.instruction = self.instruction.split()
-        self.__encoded_instruction_to_bin += self.operation['JUMP']
-        self.__encoded_instruction_to_bin += self.flag[self.instruction[1][:-1]]
-        self.__encoded_instruction_to_bin += ''.join(format(int(self.instruction[2], 16), 'b')).zfill(10)
+        self.__instruction_with_flags('JUMP')
 
     def __JUMP_NZ(self):
-        self.__encoded_instruction_to_bin = ""
-        self.instruction = self.instruction.split()
-        self.__encoded_instruction_to_bin += self.operation['JUMP']
-        self.__encoded_instruction_to_bin += self.flag[self.instruction[1][:-1]]
-        self.__encoded_instruction_to_bin += ''.join(format(int(self.instruction[2], 16), 'b')).zfill(10)
+        self.__instruction_with_flags('JUMP')
 
     def __LOAD(self):
-        self.__encoded_instruction_to_bin = ""
-        self.instruction = self.instruction.split()
-        self.__encoded_instruction_to_bin += self.operation[self.instruction[0]]
-        if self.instruction[2].find('s') != -1:
-            self.__encoded_instruction_to_bin += '1'
-            self.__encoded_instruction_to_bin += self.register[self.instruction[1][:-1]]
-            self.__encoded_instruction_to_bin += self.register[self.instruction[2]]
-            self.__encoded_instruction_to_bin += '0000'
-        else:
-            self.__encoded_instruction_to_bin += '0'
-            self.__encoded_instruction_to_bin += self.register[self.instruction[1][:-1]]
-            self.__encoded_instruction_to_bin += ''.join(format(int(self.instruction[2]), 'b')).zfill(8)
+        self.__instructinon_sx_and_kk_or_sy()
 
     def __OR(self):
-        self.__encoded_instruction_to_bin = ""
-        self.instruction = self.instruction.split()
-        self.__encoded_instruction_to_bin += self.operation[self.instruction[0]]
-        if self.instruction[2].find('s') != -1:
-            self.__encoded_instruction_to_bin += '1'
-            self.__encoded_instruction_to_bin += self.register[self.instruction[1][:-1]]
-            self.__encoded_instruction_to_bin += self.register[self.instruction[2]]
-            self.__encoded_instruction_to_bin += '0000'
-        else:
-            self.__encoded_instruction_to_bin += '0'
-            self.__encoded_instruction_to_bin += self.register[self.instruction[1][:-1]]
-            self.__encoded_instruction_to_bin += ''.join(format(int(self.instruction[2]), 'b')).zfill(8)
+        self.__instructinon_sx_and_kk_or_sy()
 
     def __OUTPUT(self):
-        self.__encoded_instruction_to_bin = ""
-        self.instruction = self.instruction.split()
-        self.__encoded_instruction_to_bin += self.operation[self.instruction[0]]
-        if self.instruction[2].find('s') != -1:
-            self.__encoded_instruction_to_bin += '1'
-            self.__encoded_instruction_to_bin += self.register[self.instruction[1][:-1]]
-            self.__encoded_instruction_to_bin += self.register[self.instruction[2]]
-            self.__encoded_instruction_to_bin += '0000'
-        else:
-            self.__encoded_instruction_to_bin += '0'
-            self.__encoded_instruction_to_bin += self.register[self.instruction[1][:-1]]
-            self.__encoded_instruction_to_bin += ''.join(format(int(self.instruction[2]), 'b')).zfill(8)
+        self.__instructinon_sx_and_kk_or_sy()
 
     def __RETURN(self):
-        self.__encoded_instruction_to_bin = ""
-        self.instruction = self.instruction.split()
-        self.__encoded_instruction_to_bin += self.operation['RETURN']
-        self.__encoded_instruction_to_bin += self.flag['None']
-        self.__encoded_instruction_to_bin += ''.join(format(int(self.instruction[1], 16), 'b')).zfill(10)
+        self.__instruction_with_flags('RETURN')
 
     def __RETURN_C(self):
-        self.__encoded_instruction_to_bin = ""
-        self.instruction = self.instruction.split()
-        self.__encoded_instruction_to_bin += self.operation['RETURN']
-        self.__encoded_instruction_to_bin += self.flag[self.instruction[1][:-1]]
-        self.__encoded_instruction_to_bin += ''.join(format(int(self.instruction[2], 16), 'b')).zfill(10)
+        self.__instruction_with_flags('RETURN')
+
     def __RETURN_NC(self):
-        self.__encoded_instruction_to_bin = ""
-        self.instruction = self.instruction.split()
-        self.__encoded_instruction_to_bin += self.operation['RETURN']
-        self.__encoded_instruction_to_bin += self.flag[self.instruction[1][:-1]]
-        self.__encoded_instruction_to_bin += ''.join(format(int(self.instruction[2], 16), 'b')).zfill(10)
+        self.__instruction_with_flags('RETURN')
 
     def __RETURN_Z(self):
-        self.__encoded_instruction_to_bin = ""
-        self.instruction = self.instruction.split()
-        self.__encoded_instruction_to_bin += self.operation['RETURN']
-        self.__encoded_instruction_to_bin += self.flag[self.instruction[1][:-1]]
-        self.__encoded_instruction_to_bin += ''.join(format(int(self.instruction[2], 16), 'b')).zfill(10)
+        self.__instruction_with_flags('RETURN')
 
     def __RETURN_NZ(self):
-        self.__encoded_instruction_to_bin = ""
-        self.instruction = self.instruction.split()
-        self.__encoded_instruction_to_bin += self.operation['RETURN']
-        self.__encoded_instruction_to_bin += self.flag[self.instruction[1][:-1]]
-        self.__encoded_instruction_to_bin += ''.join(format(int(self.instruction[2], 16), 'b')).zfill(10)
+        self.__instruction_with_flags('RETURN')
 
     def __RETURNI_DISABLE(self):
         self.__encoded_instruction_to_bin = "111000000000000000"
@@ -307,164 +185,49 @@ class PicoBlazeAsmEncoder():
         self.__encoded_instruction_to_bin = "111000000000000001"
 
     def __RL(self):
-        self.__encoded_instruction_to_bin = ""
-        self.instruction = self.instruction.split()
-        self.__encoded_instruction_to_bin += self.operation['SHIFT']
-        self.__encoded_instruction_to_bin += '0'
-        self.__encoded_instruction_to_bin += self.register[self.instruction[1]]
-        self.__encoded_instruction_to_bin += '0000'
-        self.__encoded_instruction_to_bin += self.operation[self.instruction[0]]
+        self.__instruction_SHIFT()
 
     def __RR(self):
-        self.__encoded_instruction_to_bin = ""
-        self.instruction = self.instruction.split()
-        self.__encoded_instruction_to_bin += self.operation['SHIFT']
-        self.__encoded_instruction_to_bin += '0'
-        self.__encoded_instruction_to_bin += self.register[self.instruction[1]]
-        self.__encoded_instruction_to_bin += '0000'
-        self.__encoded_instruction_to_bin += self.operation[self.instruction[0]]
+        self.__instruction_SHIFT()
 
     def __SL0(self):
-        self.__encoded_instruction_to_bin = ""
-        self.instruction = self.instruction.split()
-        self.__encoded_instruction_to_bin += self.operation['SHIFT']
-        self.__encoded_instruction_to_bin += '0'
-        self.__encoded_instruction_to_bin += self.register[self.instruction[1]]
-        self.__encoded_instruction_to_bin += '0000'
-        self.__encoded_instruction_to_bin += self.operation[self.instruction[0]]
+        self.__instruction_SHIFT()
 
     def __SL1(self):
-        self.__encoded_instruction_to_bin = ""
-        self.instruction = self.instruction.split()
-        self.__encoded_instruction_to_bin += self.operation['SHIFT']
-        self.__encoded_instruction_to_bin += '0'
-        self.__encoded_instruction_to_bin += self.register[self.instruction[1]]
-        self.__encoded_instruction_to_bin += '0000'
-        self.__encoded_instruction_to_bin += self.operation[self.instruction[0]]
+        self.__instruction_SHIFT()
 
     def __SLA(self):
-        self.__encoded_instruction_to_bin = ""
-        self.instruction = self.instruction.split()
-        self.__encoded_instruction_to_bin += self.operation['SHIFT']
-        self.__encoded_instruction_to_bin += '0'
-        self.__encoded_instruction_to_bin += self.register[self.instruction[1]]
-        self.__encoded_instruction_to_bin += '0000'
-        self.__encoded_instruction_to_bin += self.operation[self.instruction[0]]
+        self.__instruction_SHIFT()
 
     def __SLX(self):
-        self.__encoded_instruction_to_bin = ""
-        self.instruction = self.instruction.split()
-        self.__encoded_instruction_to_bin += self.operation['SHIFT']
-        self.__encoded_instruction_to_bin += '0'
-        self.__encoded_instruction_to_bin += self.register[self.instruction[1]]
-        self.__encoded_instruction_to_bin += '0000'
-        self.__encoded_instruction_to_bin += self.operation[self.instruction[0]]
+        self.__instruction_SHIFT()
 
     def __SR0(self):
-        self.__encoded_instruction_to_bin = ""
-        self.instruction = self.instruction.split()
-        self.__encoded_instruction_to_bin += self.operation['SHIFT']
-        self.__encoded_instruction_to_bin += '0'
-        self.__encoded_instruction_to_bin += self.register[self.instruction[1]]
-        self.__encoded_instruction_to_bin += '0000'
-        self.__encoded_instruction_to_bin += self.operation[self.instruction[0]]
+        self.__instruction_SHIFT()
 
     def __SR1(self):
-        self.__encoded_instruction_to_bin = ""
-        self.instruction = self.instruction.split()
-        self.__encoded_instruction_to_bin += self.operation['SHIFT']
-        self.__encoded_instruction_to_bin += '0'
-        self.__encoded_instruction_to_bin += self.register[self.instruction[1]]
-        self.__encoded_instruction_to_bin += '0000'
-        self.__encoded_instruction_to_bin += self.operation[self.instruction[0]]
+        self.__instruction_SHIFT()
 
     def __SRA(self):
-        self.__encoded_instruction_to_bin = ""
-        self.instruction = self.instruction.split()
-        self.__encoded_instruction_to_bin += self.operation['SHIFT']
-        self.__encoded_instruction_to_bin += '0'
-        self.__encoded_instruction_to_bin += self.register[self.instruction[1]]
-        self.__encoded_instruction_to_bin += '0000'
-        self.__encoded_instruction_to_bin += self.operation[self.instruction[0]]
+        self.__instruction_SHIFT()
 
     def __SRX(self):
-        self.__encoded_instruction_to_bin = ""
-        self.instruction = self.instruction.split()
-        self.__encoded_instruction_to_bin += self.operation['SHIFT']
-        self.__encoded_instruction_to_bin += '0'
-        self.__encoded_instruction_to_bin += self.register[self.instruction[1]]
-        self.__encoded_instruction_to_bin += '0000'
-        self.__encoded_instruction_to_bin += self.operation[self.instruction[0]]
+        self.__instruction_SHIFT()
 
     def __STORE(self):
-        self.__encoded_instruction_to_bin = ""
-        self.instruction = self.instruction.split()
-        self.__encoded_instruction_to_bin += self.operation[self.instruction[0]]
-        if self.instruction[2].find('s') != -1:
-            self.__encoded_instruction_to_bin += '1'
-            self.__encoded_instruction_to_bin += self.register[self.instruction[1][:-1]]
-            self.__encoded_instruction_to_bin += self.register[self.instruction[2]]
-            self.__encoded_instruction_to_bin += '0000'
-        else:
-            self.__encoded_instruction_to_bin += '0'
-            self.__encoded_instruction_to_bin += self.register[self.instruction[1][:-1]]
-            self.__encoded_instruction_to_bin += ''.join(format(int(self.instruction[2]), 'b')).zfill(8)
+        self.__instructinon_sx_and_kk_or_sy()
 
     def __SUB(self):
-        self.__encoded_instruction_to_bin = ""
-        self.instruction = self.instruction.split()
-        self.__encoded_instruction_to_bin += self.operation[self.instruction[0]]
-        if self.instruction[2].find('s') != -1:
-            self.__encoded_instruction_to_bin += '1'
-            self.__encoded_instruction_to_bin += self.register[self.instruction[1][:-1]]
-            self.__encoded_instruction_to_bin += self.register[self.instruction[2]]
-            self.__encoded_instruction_to_bin += '0000'
-        else:
-            self.__encoded_instruction_to_bin += '0'
-            self.__encoded_instruction_to_bin += self.register[self.instruction[1][:-1]]
-            self.__encoded_instruction_to_bin += ''.join(format(int(self.instruction[2]), 'b')).zfill(8)
+        self.__instructinon_sx_and_kk_or_sy()
 
     def __SUBCY(self):
-        self.__encoded_instruction_to_bin = ""
-        self.instruction = self.instruction.split()
-        self.__encoded_instruction_to_bin += self.operation[self.instruction[0]]
-        if self.instruction[2].find('s') != -1:
-            self.__encoded_instruction_to_bin += '1'
-            self.__encoded_instruction_to_bin += self.register[self.instruction[1][:-1]]
-            self.__encoded_instruction_to_bin += self.register[self.instruction[2]]
-            self.__encoded_instruction_to_bin += '0000'
-        else:
-            self.__encoded_instruction_to_bin += '0'
-            self.__encoded_instruction_to_bin += self.register[self.instruction[1][:-1]]
-            self.__encoded_instruction_to_bin += ''.join(format(int(self.instruction[2]), 'b')).zfill(8)
+        self.__instructinon_sx_and_kk_or_sy()
 
     def __TEST(self):
-        self.__encoded_instruction_to_bin = ""
-        self.instruction = self.instruction.split()
-        self.__encoded_instruction_to_bin += self.operation[self.instruction[0]]
-        if self.instruction[2].find('s') != -1:
-            self.__encoded_instruction_to_bin += '1'
-            self.__encoded_instruction_to_bin += self.register[self.instruction[1][:-1]]
-            self.__encoded_instruction_to_bin += self.register[self.instruction[2]]
-            self.__encoded_instruction_to_bin += '0000'
-        else:
-            self.__encoded_instruction_to_bin += '0'
-            self.__encoded_instruction_to_bin += self.register[self.instruction[1][:-1]]
-            self.__encoded_instruction_to_bin += ''.join(format(int(self.instruction[2]), 'b')).zfill(8)
+        self.__instructinon_sx_and_kk_or_sy()
 
     def __XOR(self):
-        self.__encoded_instruction_to_bin = ""
-        self.instruction = self.instruction.split()
-        self.__encoded_instruction_to_bin += self.operation[self.instruction[0]]
-        if self.instruction[2].find('s') != -1:
-            self.__encoded_instruction_to_bin += '1'
-            self.__encoded_instruction_to_bin += self.register[self.instruction[1][:-1]]
-            self.__encoded_instruction_to_bin += self.register[self.instruction[2]]
-            self.__encoded_instruction_to_bin += '0000'
-        else:
-            self.__encoded_instruction_to_bin += '0'
-            self.__encoded_instruction_to_bin += self.register[self.instruction[1][:-1]]
-            self.__encoded_instruction_to_bin += ''.join(format(int(self.instruction[2]), 'b')).zfill(8)
+        self.__instructinon_sx_and_kk_or_sy()
 
     def encode_instruction(self, instruction):
         self.instruction = instruction

@@ -100,94 +100,85 @@ def test_encode_operation_CALL_Z():
     assert binary_instruction_expected == asm_encoder._PicoBlazeAsmEncoder__encoded_instruction_to_bin
 
 
-def test_encode_operation_COMPARE_sx_kk():
-    line_of_code = "COMPARE s0, 127"
-    #         "010100xxxxkkkkkkkk"
-    binary_instruction_expected = "010100000001111111"  # COMPARE s0, kk
-    asm_encoder = PicoBlazeAsmEncoder()
-    asm_encoder.encode_instruction(line_of_code)
-    assert binary_instruction_expected == asm_encoder._PicoBlazeAsmEncoder__encoded_instruction_to_bin
+    def test_encode_operation_COMPARE_sx_kk():
+        line_of_code = "COMPARE s0, 127"
+        #         "010100xxxxkkkkkkkk"
+        binary_instruction_expected = "010100000001111111"  # COMPARE s0, kk
+        asm_encoder = PicoBlazeAsmEncoder()
+        asm_encoder.encode_instruction(line_of_code)
+        assert binary_instruction_expected == asm_encoder._PicoBlazeAsmEncoder__encoded_instruction_to_bin
 
+    def test_encode_operation_COMPARE_sx_sy():
+        line_of_code = "COMPARE s0, sF"
+        #         "010101xxxxyyyy0000"
+        binary_instruction_expected = "010101000011110000"  # COMPARE s0, sF
+        asm_encoder = PicoBlazeAsmEncoder()
+        asm_encoder.encode_instruction(line_of_code)
+        assert binary_instruction_expected == asm_encoder._PicoBlazeAsmEncoder__encoded_instruction_to_bin
 
-def test_encode_operation_COMPARE_sx_sy():
-    line_of_code = "COMPARE s0, sF"
-    #         "010101xxxxyyyy0000"
-    binary_instruction_expected = "010101000011110000"  # COMPARE s0, sF
-    asm_encoder = PicoBlazeAsmEncoder()
-    asm_encoder.encode_instruction(line_of_code)
-    assert binary_instruction_expected == asm_encoder._PicoBlazeAsmEncoder__encoded_instruction_to_bin
+    def test_encode_operation_DISABLE_INTERRUPT():
+        line_of_code = "DISABLE INTERRUPT"
+        #         "111100000000000000"
+        binary_instruction_expected = "111100000000000000"  # DISABLE INTERRUPT
+        asm_encoder = PicoBlazeAsmEncoder()
+        asm_encoder.encode_instruction(line_of_code)
+        assert binary_instruction_expected == asm_encoder._PicoBlazeAsmEncoder__encoded_instruction_to_bin
 
+    def test_encode_operation_ENABLE_INTERRUPT():
+        line_of_code = "ENABLE INTERRUPT"
+        #         "111100000000000001"
+        binary_instruction_expected = "111100000000000001"  # ENABLE_INTERRUPT
+        asm_encoder = PicoBlazeAsmEncoder()
+        asm_encoder.encode_instruction(line_of_code)
+        assert binary_instruction_expected == asm_encoder._PicoBlazeAsmEncoder__encoded_instruction_to_bin
 
-def test_encode_operation_DISABLE_INTERRUPT():
-    line_of_code = "DISABLE INTERRUPT"
-    #         "111100000000000000"
-    binary_instruction_expected = "111100000000000000"  # DISABLE INTERRUPT
-    asm_encoder = PicoBlazeAsmEncoder()
-    asm_encoder.encode_instruction(line_of_code)
-    assert binary_instruction_expected == asm_encoder._PicoBlazeAsmEncoder__encoded_instruction_to_bin
+    def test_encode_operation_FETCH_sx_kk():
+        line_of_code = "FETCH s0, 63"
+        #         "000110xxxx00kkkkkk" 000110
+        binary_instruction_expected = "000110000000111111"  # FETCH s0, kk
+        asm_encoder = PicoBlazeAsmEncoder()
+        asm_encoder.encode_instruction(line_of_code)
+        assert binary_instruction_expected == asm_encoder._PicoBlazeAsmEncoder__encoded_instruction_to_bin
 
+    def test_encode_operation_FETCH_sx_sy():
+        line_of_code = "FETCH s0, sF"
+        #         "000111xxxxyyyy0000"
+        binary_instruction_expected = "000111000011110000"  # FETCH s0, sF
+        asm_encoder = PicoBlazeAsmEncoder()
+        asm_encoder.encode_instruction(line_of_code)
+        assert binary_instruction_expected == asm_encoder._PicoBlazeAsmEncoder__encoded_instruction_to_bin
 
-def test_encode_operation_ENABLE_INTERRUPT():
-    line_of_code = "ENABLE INTERRUPT"
-    #         "111100000000000001"
-    binary_instruction_expected = "111100000000000001"  # ENABLE_INTERRUPT
-    asm_encoder = PicoBlazeAsmEncoder()
-    asm_encoder.encode_instruction(line_of_code)
-    assert binary_instruction_expected == asm_encoder._PicoBlazeAsmEncoder__encoded_instruction_to_bin
+    def test_encode_operation_INPUT_sx_kk():
+        line_of_code = "INPUT s0, 127"
+        #         "000100xxxxkkkkkkkk"
+        binary_instruction_expected = "000100000001111111"  # INPUT s0, kk
+        asm_encoder = PicoBlazeAsmEncoder()
+        asm_encoder.encode_instruction(line_of_code)
+        assert binary_instruction_expected == asm_encoder._PicoBlazeAsmEncoder__encoded_instruction_to_bin
 
+    def test_encode_operation_INPUT_sx_sy():
+        line_of_code = "INPUT s0, sF"
+        #         "000101xxxxyyyy0000"
+        binary_instruction_expected = "000101000011110000"  # INPUT s0, sF
+        asm_encoder = PicoBlazeAsmEncoder()
+        asm_encoder.encode_instruction(line_of_code)
+        assert binary_instruction_expected == asm_encoder._PicoBlazeAsmEncoder__encoded_instruction_to_bin
 
-def test_encode_operation_FETCH_sx_kk():
-    line_of_code = "FETCH s0, 63"
-    #         "000110xxxx00kkkkkk" 000110
-    binary_instruction_expected = "000110000000111111"  # FETCH s0, kk
-    asm_encoder = PicoBlazeAsmEncoder()
-    asm_encoder.encode_instruction(line_of_code)
-    assert binary_instruction_expected == asm_encoder._PicoBlazeAsmEncoder__encoded_instruction_to_bin
+    def test_encode_operation_JUMP():
+        line_of_code = "JUMP 3FF"
+        #         "11010fffaaaaaaaaaa"
+        binary_instruction_expected = "110100001111111111"  # JUMP 3FF
+        asm_encoder = PicoBlazeAsmEncoder()
+        asm_encoder.encode_instruction(line_of_code)
+        assert binary_instruction_expected == asm_encoder._PicoBlazeAsmEncoder__encoded_instruction_to_bin
 
-
-def test_encode_operation_FETCH_sx_sy():
-    line_of_code = "FETCH s0, sF"
-    #         "000111xxxxyyyy0000"
-    binary_instruction_expected = "000111000011110000"  # FETCH s0, sF
-    asm_encoder = PicoBlazeAsmEncoder()
-    asm_encoder.encode_instruction(line_of_code)
-    assert binary_instruction_expected == asm_encoder._PicoBlazeAsmEncoder__encoded_instruction_to_bin
-
-
-def test_encode_operation_INPUT_sx_kk():
-    line_of_code = "INPUT s0, 127"
-    #         "000100xxxxkkkkkkkk"
-    binary_instruction_expected = "000100000001111111"  # INPUT s0, kk
-    asm_encoder = PicoBlazeAsmEncoder()
-    asm_encoder.encode_instruction(line_of_code)
-    assert binary_instruction_expected == asm_encoder._PicoBlazeAsmEncoder__encoded_instruction_to_bin
-
-
-def test_encode_operation_INPUT_sx_sy():
-    line_of_code = "INPUT s0, sF"
-    #         "000101xxxxyyyy0000"
-    binary_instruction_expected = "000101000011110000"  # INPUT s0, sF
-    asm_encoder = PicoBlazeAsmEncoder()
-    asm_encoder.encode_instruction(line_of_code)
-    assert binary_instruction_expected == asm_encoder._PicoBlazeAsmEncoder__encoded_instruction_to_bin
-
-
-def test_encode_operation_JUMP():
-    line_of_code = "JUMP 3FF"
-    #         "11010fffaaaaaaaaaa"
-    binary_instruction_expected = "110100001111111111"  # JUMP 3FF
-    asm_encoder = PicoBlazeAsmEncoder()
-    asm_encoder.encode_instruction(line_of_code)
-    assert binary_instruction_expected == asm_encoder._PicoBlazeAsmEncoder__encoded_instruction_to_bin
-
-
-def test_encode_operation_JUMP_C():
-    line_of_code = "JUMP C, 3FF"
-    #         "11010fffaaaaaaaaaa"
-    binary_instruction_expected = "110101101111111111"  # JUMP 3FF
-    asm_encoder = PicoBlazeAsmEncoder()
-    asm_encoder.encode_instruction(line_of_code)
-    assert binary_instruction_expected == asm_encoder._PicoBlazeAsmEncoder__encoded_instruction_to_bin
+    def test_encode_operation_JUMP_C():
+        line_of_code = "JUMP C, 3FF"
+        #         "11010fffaaaaaaaaaa"
+        binary_instruction_expected = "110101101111111111"  # JUMP 3FF
+        asm_encoder = PicoBlazeAsmEncoder()
+        asm_encoder.encode_instruction(line_of_code)
+        assert binary_instruction_expected == asm_encoder._PicoBlazeAsmEncoder__encoded_instruction_to_bin
 
 
 def test_encode_operation_JUMP_NC():
