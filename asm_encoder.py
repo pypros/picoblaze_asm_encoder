@@ -59,8 +59,10 @@ class PicoBlazeAsmEncoder():
             "sE": "1110",
             "sF": "1111"
         }
+
         self.instruction = None
         self.__encoded_instruction_to_bin = ''
+        self.__encode_program = []
 
     def __instructinon_sx_and_kk_or_sy(self):
         self.__encoded_instruction_to_bin = ""
@@ -73,7 +75,7 @@ class PicoBlazeAsmEncoder():
         else:
             self.__encoded_instruction_to_bin += '0'
             self.__encoded_instruction_to_bin += self.register[self.instruction[1][:-1]]
-            self.__encoded_instruction_to_bin += ''.join(format(int(self.instruction[2]), 'b')).zfill(8)
+            self.__encoded_instruction_to_bin += ''.join(format(int(self.instruction[2], 16), 'b')).zfill(8)
 
     def __instruction_with_flags(self, name_instruction):
         self.__encoded_instruction_to_bin = ""
@@ -325,3 +327,19 @@ class PicoBlazeAsmEncoder():
             self.__XOR()
         else:
             print "instruction unsupported"
+
+    def encode_instructions(self, instructions):
+        for instruction in instructions:
+            self.encode_instruction(instruction)
+
+    def encode_program_file_psm(self, path_to_file):
+        with open(path_to_file, 'rb') as file_psm:
+            instructions = file_psm.readlines()
+            for instruction in instructions:
+                self.encode_instruction(instruction[:-2])
+                self.__encode_program.append(self.__encoded_instruction_to_bin)
+
+    def encode_program_file_to_bin(self):
+        with open('../rom.bin', 'w') as output:
+            for instruction in self.__encode_program:
+                output.write(instruction+"\r")
