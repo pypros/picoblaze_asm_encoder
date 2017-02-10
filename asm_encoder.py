@@ -339,7 +339,7 @@ class PicoBlazeAsmEncoder():
                 self.encode_instruction(instruction[:-2])
                 self.__encode_program.append(self.__encoded_instruction_to_bin)
 
-    def encode_program_file_to_bin(self):
-        with open('../rom.bin', 'w') as output:
+    def encode_program_file_to_bin(self, path_file='../rom.bin'):
+        with open(path_file, 'w') as output:
             for instruction in self.__encode_program:
                 output.write(instruction+"\r")
