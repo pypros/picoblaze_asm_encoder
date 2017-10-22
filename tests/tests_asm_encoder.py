@@ -1,4 +1,4 @@
-from ..asm_encoder import PicoBlazeAsmEncoder
+from asm_encoder import PicoBlazeAsmEncoder
 
 
 def test_encode_operation_ADD_sx_kk():
