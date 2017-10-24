@@ -7,7 +7,9 @@ install:
 
 # command to run tests
 script:
-  - pytest -vv tests/tests_asm_encoder.py --pylint --pep8  # or py.test for Python versions 3.5 and below
+  - pytest -vv tests/tests_asm_encoder.py 
+  - pytest -vv tests/tests_asm_encoder.py --pylint
+  - pytest -vv tests/tests_asm_encoder.py --pep8
   - coverage run -m asm_encoder tests/
 #  - py.test coveralls/tests.py --doctest-modules --pep8 coveralls -v --cov coveralls --cov-report term-missing
 
