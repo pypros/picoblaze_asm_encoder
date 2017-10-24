@@ -3,11 +3,11 @@ python:
   - "2.7"
 # command to install dependencies
 install:
-    - pip install pytest pytest-cov pytest-pep8 coveralls
+    - pip install pytest pytest-cov pytest-pep8 coveralls pytest-pylint
 
 # command to run tests
 script:
-  - pytest -vv tests/tests_asm_encoder.py # or py.test for Python versions 3.5 and below
+  - pytest -vv tests/tests_asm_encoder.py --pylint --pep8# or py.test for Python versions 3.5 and below
   - coverage run -m asm_encoder tests/
 #  - py.test coveralls/tests.py --doctest-modules --pep8 coveralls -v --cov coveralls --cov-report term-missing
 
