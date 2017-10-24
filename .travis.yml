@@ -12,7 +12,8 @@ before_script:
 # command to run tests
 script:
   - pytest -vv tests/tests_asm_encoder.py # or py.test for Python versions 3.5 and below
-  - py.test coveralls/tests.py --doctest-modules --pep8 coveralls -v --cov coveralls --cov-report term-missing
+  - pytest --cov=asm_encoder.py -n 2 tests/tests_asm_encoder.py
+#  - py.test coveralls/tests.py --doctest-modules --pep8 coveralls -v --cov coveralls --cov-report term-missing
 
 after_success:
   - coveralls
